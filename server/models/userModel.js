@@ -18,11 +18,9 @@ const userShema = new mongoose.Schema({
     },
     first_name: {
         type: String,
-        required: true,
     },
     last_name: {
         type: String,
-        required: true,
     },
     username: {
         type: String,

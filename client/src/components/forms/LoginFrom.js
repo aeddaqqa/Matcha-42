@@ -7,21 +7,35 @@ import {
 import { TextFieldStyled } from './input.style';
 import useForm from '../../Hooks/useForm';
 import { ReactComponent as Google } from '../../assets/icons/Google.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
-import { signInWithGoogle, auth } from '../../firebase';
-import { motion, AnimatePresence } from 'framer-motion';
+// import { motion, AnimatePresence } from 'framer-motion';
+import { userLoginAction } from '../../store/actions/userActions';
+import { useDispatch, useSelector } from 'react-redux';
+// import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Login = (props) => {
-    const formRegister = () => {
+    const dispatch = useDispatch();
+
+    // const user = useSelector((state) => state.user);
+    const loginForm = () => {
+        dispatch(userLoginAction(values.email, values.password));
         console.log('Form Values ', values);
     };
-    const [user, setUser] = useState(null);
-    const { handleChange, values, errors, handleSubmit } =
-        useForm(formRegister);
+    // let navigate = useNavigate();
+    // console.log('user ', user);
+    // useEffect(() => {
+    // if (user) {
+    // navigate('/profile');
+    // props.history.push('/profile');
+    // console.log(user);
+    // }
+    // }, [user]);
+    const { handleChange, values, errors, handleSubmit } = useForm(loginForm);
     const [showPassword, setShowPassword] = useState(false);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -49,9 +63,9 @@ const Login = (props) => {
             <LoginStyle onSubmit={handleSubmit}>
                 <TextFieldStyled
                     className="input-login"
-                    label="User Name"
+                    label="Email"
                     variant="outlined"
-                    name="username"
+                    name="email"
                     onChange={handleChange}
                 />
                 <TextFieldStyled
@@ -103,7 +117,7 @@ const Login = (props) => {
                     <div className="line"></div>
                     <p>Or Sign in with</p>
                 </div>
-                <div onClick={signInWithGoogle} className="google">
+                <div className="google">
                     <Google />
                     <p>Google</p>
                 </div>
