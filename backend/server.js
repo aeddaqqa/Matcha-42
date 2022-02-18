@@ -43,14 +43,13 @@ app.use(
 
 app.post('/upload', function(req, res) {
     if (!req.files) {
-        return res.status(400).send("No files were uploaded.");
+        return res.status(400).send("No image was uploaded.");
     }
     const imgs = req.files.img
     imgs.forEach(img => {
         let time = Date.now()
         let extension = img.name.split('.').pop();
-        let name = randomstring.generate() + "_" + time + "." + extension
-        console.log(name)
+        let name = randomstring.generate(8) + "_" + time + "." + extension
         let path = __dirname + "/images/" + name
         img.mv(path, err => {
             if (err)

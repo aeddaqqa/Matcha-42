@@ -11,7 +11,7 @@ module.exports = {
         
         db.query(user.findEmail(userData.email), (err, result) => {
             if (err)
-                throw err
+                return res.send(err.sqlMessage)
             else
             {
                 let count = Object.keys(result).length
@@ -20,7 +20,7 @@ module.exports = {
                     i = 2
                 db.query(user.findUsername(userData.username), (err, result) => {
                     if (err)
-                        console.log(err)
+                        return res.send(err.sqlMessage)
                     let count = Object.keys(result).length
                     if (count != 0)
                         i++
@@ -36,7 +36,7 @@ module.exports = {
                     else {
                         db.query(user.addUser(),userData, (err, result) => {
                             if (err)
-                                res.send(err)
+                                return res.send(err.sqlMessage)
                             res.json("user is registered with success")
                         })
                     }
@@ -58,6 +58,6 @@ module.exports = {
         })
     },
     
-    UserSelect: async (req, res) => {
+    UserSelect: (req, res) => {
     }
 }
