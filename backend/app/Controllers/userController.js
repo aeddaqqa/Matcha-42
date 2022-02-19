@@ -1,7 +1,7 @@
 const db = require("../../database/db_connection")
 const User = require("../Models/User")
 const bcrypt = require("bcrypt")
-
+const randomstring = require("randomstring");
 
 
 module.exports = {
@@ -48,13 +48,37 @@ module.exports = {
     UserEdit:  (req, res) => {
         const user = new User()
         const userData = req.body
+
+        for (const key in userData)
+            if (userData[key] == "")
+              delete userData[key]
+
         const data = Object.values(userData)
         const set = user.updateUser(req.params.id)
+        
+        if (req.files) {
+            const imgs = req.files.img
+            imgs.forEach(img => {
+                let time = Date.now()
+                let extension = img.name.split('.').pop();
+                let name = randomstring.generate(8) + "_" + time + "." + extension
+                let path = __dirname + "/images/" + name
+                img.mv(path, err => {
+                    if (err)
+                        return res.status(500).send(err)
+                    db.query(user.addImage(req.params.id), [name], (err, result) => {
+                        if (err)
+                            return res.status(500).send(err)
+                    })
+                })
+            })
+        }
+
         db.query(set, userData, (err, result) => {
             if (err)
-                throw err
+                return res.status(500).send(err)
             else
-                res.json("User data updated with success")
+                res.json(result)
         })
     },
     

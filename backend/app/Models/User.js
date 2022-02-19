@@ -15,8 +15,12 @@ class User {
         return "INSERT INTO users SET ?"
     }
 
-    updateUser (id) {
+    updateUser(id) {
         return `UPDATE users SET ? WHERE id = ${id}` 
+    }
+
+    addImage(id) {
+        return `INSERT INTO images SET name = ?, user_id = ${id}`
     }
 
 }
