@@ -3,7 +3,6 @@ const db = require("../../database/db_connection")
 class User {
 
     findEmail(email) {
-
         return `SELECT email FROM users WHERE email = '${email}'`
     }
 
@@ -23,6 +22,9 @@ class User {
         return `INSERT INTO images SET name = ?, user_id = ${id}`
     }
 
+    checkUser(id) {
+        return `SELECT id FROM users WHERE id = ${id}`
+    }
 }
 
 module.exports = User

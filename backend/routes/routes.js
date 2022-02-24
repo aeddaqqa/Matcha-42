@@ -8,7 +8,7 @@ router.post('/signup', UserController.UserStore)
 router.post('/login', authController.Login)
 router.post('/message', messageController.MessageStore)
 router.post('/message/show', messageController.getMessage)
-router.post('/user/edit/:id', UserController.UserEdit)
+router.post('/user/edit/:id', UserController.CompelteProfile)
 router.get('/user/main/:id', UserController.UserSelect)
 
 
