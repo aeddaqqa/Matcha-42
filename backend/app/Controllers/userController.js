@@ -48,8 +48,15 @@ module.exports = {
     CompelteProfile:  (req, res) => {
         const user = new User()
         const userData = req.body
-        let imgs = userData.img
+        msg = []
+        for (const key in userData)
+            if (userData[key] == "")
+                msg.push(`${key} must not be empty`)
+                
+        if (msg.length > 0)
+            return res.send({Status: "Failed", Msg: msg})
 
+        let imgs = userData.img
         for(let i = 0; i < imgs.length; i++) {
             const name = randomstring.generate() + "_" + Date.now()
             const extension = imgs[i].split(';')[0].split('/')[1]

@@ -1,14 +1,22 @@
+const jwt = require('jsonwebtoken')
+
+
 module.exports = {
     verifyToken: (req, res, next) =>  {
         const bearerHeader = req.headers['authorization']
     
-        if (typeof bearerHeader !== 'undefined')
+        if (bearerHeader)
         {
-            const bearer = bearerHeader.split(' ')
-            req.token = bearer[1]
-            next()
-        }
-        else
+            const token = bearerHeader.split(' ')[1]
+            jwt.verify(token, 'hello', (err, authData) => {
+                if (err)
+                    res.sendStatus(401)
+                else{
+                    req.authUser = authData
+                    next()
+                }
+            })
+        } else
             res.sendStatus(403)
     }
 }
