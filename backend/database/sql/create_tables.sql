@@ -9,7 +9,11 @@ CREATE TABLE  IF NOT EXISTS users (
     gender VARCHAR(255),
     sexualPreference VARCHAR(255),
 	biography VARCHAR(255),
-	position VARCHAR(255)
+	birthdate VARCHAR(255),
+	profilePicture VARCHAR(255),
+	locationLat INT,
+	locationLng INT,
+	complete INT DEFAULT(0)
 );
 
 CREATE TABLE  IF NOT EXISTS images (
@@ -17,4 +21,11 @@ CREATE TABLE  IF NOT EXISTS images (
 	name VARCHAR(255),
 	user_id INT,
 	FOREIGN KEY (user_id) REFERENCES users(id)
-)
+);
+
+CREATE TABLE  IF NOT EXISTS tags (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(255),
+	user_id INT,
+	FOREIGN KEY (user_id) REFERENCES users(id)
+);

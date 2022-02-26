@@ -1,8 +1,6 @@
 const db = require("../../database/db_connection")
 const User = require("../Models/User")
 const bcrypt = require("bcrypt")
-const randomstring = require("randomstring");
-const fs = require("fs")
 
 
 module.exports = {
@@ -48,48 +46,48 @@ module.exports = {
     CompelteProfile:  (req, res) => {
         const user = new User()
         const userData = req.body
-        msg = []
-        for (const key in userData)
-            if (userData[key] == "")
-                msg.push(`${key} must not be empty`)
-                
-        if (msg.length > 0)
-            return res.send({Status: "Failed", Msg: msg})
 
-        let imgs = userData.img
-        for(let i = 0; i < imgs.length; i++) {
-            const name = randomstring.generate() + "_" + Date.now()
-            const extension = imgs[i].split(';')[0].split('/')[1]
-            let img = imgs[i].split(';base64,')[1];
-            fs.writeFile(`images/${name}.${extension}`, img, {encoding: 'base64'}, err => {
-                if (err)
-                    return res.status(500).send(err)
-            });
-            imgs[i] = `${name}.${extension}`
-        }
+        let imgs = userData.gallery
+        let tags = userData.listOfInterests
+        delete userData.gallery
+        delete userData.listOfInterests
 
-        delete userData.img
         const set = user.updateUser(req.params.id)
 
         db.query(user.checkUser(req.params.id), (err, result) => {
             if (err)
                 return res.status(500).send(err)
             else
-                if (result.length == 1)
-                    db.query(set, userData, (err, result) => {
-                        if (err)
-                            return res.status(500).send(err)
-                        else
-                            for (let i = 0; i < imgs.length; i++) {
-                                db.query(user.addImage(req.params.id), imgs[i], (err, result) => {
-                                    if (err)
-                                        return res.status(500).send(err)
-                                })
-                            return res.json({Status: "Success", Msg: "User profile has been completed."})
-                        }
-                    })
+                if (result.length == 1) {
+                    userData["complete"] = 1
+                    if (result[0].complete == 0)
+                        db.query(set, userData, (err, result) => {
+                            if (err)
+                                return res.status(500).send(err)
+                            else {
+                                user.putImgToFolder(imgs)
+                                for (let i = 0; i < imgs.length; i++) {
+                                    db.query(user.addImage(req.params.id), imgs[i], (err, result) => {
+                                        if (err)
+                                            return res.status(500).send(err)
+                                    })
+                                }
+                                
+                                for (let i = 0; i < tags.length; i++) {
+                                    db.query(user.addTags(req.params.id), tags[i], (err, result) => {
+                                        if (err)
+                                            return res.status(500).send(err)
+                                    })
+                                }
+
+                                return res.json({Status: "Success", Msg: "User profile has been completed."})
+                            }
+                        })
+                    else
+                        return res.json({Status: "Failed", Msg:"Profile already completed"})
+                }
                 else
-                    return res.json({Status: "Failed", Msg:"User isn't exist."})
+                    return res.json({Status: "Failed", Msg:"User doesn't exist."})
         })
     },
     
