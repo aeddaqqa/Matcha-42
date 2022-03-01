@@ -9,8 +9,8 @@ router.post('/login', authController.Login)
 router.post('/message', messageController.MessageStore)
 router.post('/message/show', messageController.getMessage)
 router.post('/user/edit/:id', UserController.CompelteProfile)
-router.get('/user/main/:id', UserController.UserSelect)
-
+router.get('/user/:id', UserController.UserSelect)
+router.get('/user/tags/:search', UserController.getTags)
 
 
  module.exports = router
