@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken')
 
 module.exports = {
     Login: ( req, res ) => {
-        const { email, password } = req.body
+        const { username, password } = req.body
 
-        connection.query(`SELECT * FROM users WHERE email = '${email}'`, (err,result) => {
+        connection.query(`SELECT * FROM users WHERE username = '${username}'`, (err,result) => {
             if(err)
                 res.json(err)
             else
