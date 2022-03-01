@@ -1,0 +1,11 @@
+@import "~antd/dist/antd.css";
+@font-face {
+    font-family: "DidactGothic";
+    src: url("./assets/fonts/Didact_Gothic/DidactGothic-Regular.ttf")
+        format("truetype");
+}
+
+@font-face {
+    font-family: "Shizuru";
+    src: url("./assets/fonts/Shizuru/Shizuru-Regular.ttf") format("truetype");
+}
