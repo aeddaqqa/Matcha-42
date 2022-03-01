@@ -28,7 +28,7 @@ con.connect(function(err){
 				sql = fs.readFileSync(path.join(__dirname, 'sql/create_tables.sql')).toString()
 				db.query(sql , (err, result)  => {
 					if (err)
-						console.log("err")
+						throw err
 				})
 			}
 			

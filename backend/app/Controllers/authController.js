@@ -4,15 +4,15 @@ const jwt = require('jsonwebtoken')
 
 module.exports = {
     Login: ( req, res ) => {
-        const { email, password } = req.body
+        const { username, password } = req.body
 
-        connection.query(`SELECT * FROM users WHERE email = '${email}'`, (err,result) => {
+        connection.query(`SELECT * FROM users WHERE username = '${username}'`, (err,result) => {
             if(err)
                 res.json(err)
             else
             {
                 if (result.length == 0)
-                    res.status(400).json({ErrorMessage: "Wrong Email !!!"})
+                    res.status(400).json({ErrorMessage: "Wrong username !!!"})
                 else
                 {
                 userPassword = result[0].password
