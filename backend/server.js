@@ -5,9 +5,8 @@ const user = require('./routes/routes')
 const bodyParser = require('body-parser')
 const verifyToken = require('./app/middlewares/verifyToken')
 const fileUpload = require("express-fileupload");
-const path = require('path');
+const path = require('path')
 
-//const path = require("path");
 
 port = process.env.PORT || 3000
 
