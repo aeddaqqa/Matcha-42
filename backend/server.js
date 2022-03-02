@@ -4,8 +4,6 @@ const app = express()
 const user = require('./routes/routes')
 const bodyParser = require('body-parser')
 const verifyToken = require('./app/middlewares/verifyToken')
-const fileUpload = require("express-fileupload");
-const path = require('path')
 
 
 port = process.env.PORT || 3000
@@ -20,7 +18,6 @@ if (!fs.existsSync(dir)){
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(fileUpload({ createParentPath: true }))
 app.use(express.static('public'));
 
 app.use('/api', user)
