@@ -38,9 +38,9 @@ class User {
             const name = randomstring.generate() + "_" + Date.now()
             const extension = imgs[i].split(';')[0].split('/')[1]
             let img = imgs[i].split(';base64,')[1];
-            fs.writeFile(`public/images/${name}.${extension}`, img, {encoding: 'base64'}, err => {
+            fs.writeFile(`backend/public/images/${name}.${extension}`, img, {encoding: 'base64'}, err => {
                 if (err)
-                    return err
+                    console.log(err)
             });
             imgs[i] = `${name}.${extension}`
         }
