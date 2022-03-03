@@ -132,16 +132,6 @@ module.exports = {
                     return res.json({Status: "Failed", Msg:"User doesn't exist."})
         })
     },
-
-    getTags: (req, res) => {
-        search = req.params.search
-        sql = "SELECT DISTINCT name FROM tags WHERE name = ?"
-        db.query(sql, search, (err, result) => {
-            if (err)
-                return res.send(err)
-            return res.json(result[0])
-        })
-    },
     
     UserSelect: (req, res) => {
         id = req.params.id
@@ -173,8 +163,16 @@ module.exports = {
                 })
             })
         })
-    }
+    },
 
-    
+    getTags: (req, res) => {
+        search = req.params.search + "%"
+        sql = "SELECT DISTINCT name FROM tags WHERE name LIKE ?"
+        db.query(sql, search, (err, result) => {
+            if (err)
+                return res.send(err)
+            return res.json(result)
+        })
+    },
     
 }
