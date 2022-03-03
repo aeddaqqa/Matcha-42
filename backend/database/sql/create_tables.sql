@@ -15,6 +15,7 @@ CREATE TABLE  IF NOT EXISTS users (
 	locationLng VARCHAR(255),
 	rating VARCHAR(255),
 	complete INT DEFAULT(0),
+	token VARCHAR(255),
 	verified INT DEFAULT(0)
 );
 
@@ -35,5 +36,6 @@ CREATE TABLE  IF NOT EXISTS tags (
 CREATE TABLE  IF NOT EXISTS password_resets (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	email VARCHAR(255),
-	token VARCHAR(255)
+	token VARCHAR(255),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

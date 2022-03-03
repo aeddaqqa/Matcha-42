@@ -10,7 +10,9 @@ router.post('/message', messageController.MessageStore)
 router.post('/message/show', messageController.getMessage)
 router.post('/user/complete/:id', UserController.CompelteProfile)
 router.get('/user/tags/:search', UserController.getTags)
+router.get('/user/verifyEmail/:token', UserController.verifyEmail)
 router.get('/user/:id', UserController.UserSelect)
 
 
- module.exports = router
+
+module.exports = router

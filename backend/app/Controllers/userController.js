@@ -1,13 +1,13 @@
 const db = require("../../database/db_connection")
 const User = require("../Models/User")
-const bcrypt = require("bcrypt")
+const randomstring = require("randomstring")
+const nodemailer = require("nodemailer");
 
 
 module.exports = {
     UserStore: (req, res) => {
         const userData = req.body
         const user = new User()
-        
         db.query(user.findEmail(userData.email), (err, result) => {
             if (err)
                 return res.send(err.sqlMessage)
@@ -32,12 +32,39 @@ module.exports = {
                         else if (i == 3)
                             res.status(400).json("Email and username were exist")
                     }
-                    else
+                    else {
+                        const token = randomstring.generate()
+                        userData.token = token
                         db.query(user.addUser(),userData, (err, result) => {
                             if (err)
                                 return res.send(err.sqlMessage)
-                            res.json("user is registered with success")
+                            
+                            const url = "http://localhost:3000/" + token
+                            const transporter = nodemailer.createTransport({
+                                service: 'gmail',
+                                host: "smtp.gmail.com",
+                                auth: {
+                                    user: "ouseqqam.test@gmail.com",
+                                    pass: "Outest@2022"
+                                }
+                            });
+
+                            message = {
+                                from: "Matcha Team <ouseqqam.test@gmail.com>",
+                                to: userData.email,
+                                subject: "Matcha email verification",
+                                html: "<p>Click to verify to verify your account <a href=" + url + ">Verify</a></p>"
+                            }
+                            
+                               transporter.sendMail(message, (err, info) => {
+                                    if (err) {
+                                        console.log(err)
+                                    } else {
+                                        res.json("Email verification has been send to your email")
+                                    }
+                                })
                         })
+                    }
                 })
             }
         })
@@ -132,9 +159,29 @@ module.exports = {
                     return res.json({Status: "Failed", Msg:"User doesn't exist."})
         })
     },
-    
+
+    verifyEmail: (req, res) => {
+        const token = req.params.token
+        sql = `SELECT verified FROM users WHERE token = '${token}'`
+        db.query(sql, (err, result) => {
+            if (err)
+                return res.send(err)
+            if(result.length == 0)
+                return res.json("Invalid token")
+            if (result[0].verified == 1)
+                return res.send("The email has already verified")
+            let token = null
+            sql = `UPDATE users SET verified = 1 , token = ${token}`
+            db.query(sql, (err, result) => {
+                if(err)
+                    return res.send(err)
+                res.send("your profil had been verified")
+            })
+        })
+    },
+
     UserSelect: (req, res) => {
-        id = req.params.id
+     /*   id = req.params.id
         sql = "SELECT * From users WHERE id = ?"
         db.query(sql, id, (err, result) => {
             if (err)
@@ -162,7 +209,7 @@ module.exports = {
                     return res.json(data)
                 })
             })
-        })
+        })*/
     },
 
     getTags: (req, res) => {
@@ -174,5 +221,4 @@ module.exports = {
             return res.json(result)
         })
     },
-    
 }
