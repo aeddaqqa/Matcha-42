@@ -160,25 +160,6 @@ module.exports = {
         })
     },
 
-    verifyEmail: (req, res) => {
-        const token = req.params.token
-        sql = `SELECT verified FROM users WHERE token = '${token}'`
-        db.query(sql, (err, result) => {
-            if (err)
-                return res.send(err)
-            if(result.length == 0)
-                return res.json("Invalid token")
-            if (result[0].verified == 1)
-                return res.send("The email has already verified")
-            let token = null
-            sql = `UPDATE users SET verified = 1 , token = ${token}`
-            db.query(sql, (err, result) => {
-                if(err)
-                    return res.send(err)
-                res.send("your profil had been verified")
-            })
-        })
-    },
 
     UserSelect: (req, res) => {
      /*   id = req.params.id
@@ -221,4 +202,6 @@ module.exports = {
             return res.json(result)
         })
     },
+
+
 }
