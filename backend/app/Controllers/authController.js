@@ -68,7 +68,32 @@ module.exports = {
                 return res.send(err)
             if (result.length == 0)
                 return res.json("Email doesn't exist")
-            
+        
+            const url = "http://localhost:3000/resetpassword/" + token
+            const token = randomstring.generate()
+            const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: "smtp.gmail.com",
+                auth: {
+                    user: "ouseqqam.test@gmail.com",
+                    pass: "Outest@2022"
+                }
+            });
+
+            message = {
+                from: "Matcha Team <ouseqqam.test@gmail.com>",
+                to: userData.email,
+                subject: "Matcha reset password",
+                html: "<p>Click here to reset your account password <a href=" + url + ">Verify</a></p>"
+            }
+                
+            transporter.sendMail(message, (err, info) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    res.json("Email verification has been send to your email")
+                }
+            })
         })
     }
 }
