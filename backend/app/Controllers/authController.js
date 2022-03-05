@@ -1,6 +1,8 @@
 const connection = require("../../database/db_connection")
 const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken')
+const randomstring = require("randomstring")
+const nodemailer = require("nodemailer");
 const db = require("../../database/db_connection")
 
 module.exports = {
@@ -68,9 +70,9 @@ module.exports = {
                 return res.send(err)
             if (result.length == 0)
                 return res.json("Email doesn't exist")
-        
-            const url = "http://localhost:3000/resetpassword/" + token
+            
             const token = randomstring.generate()
+            const url = "http://localhost:3000/resetpassword/" + token
             const transporter = nodemailer.createTransport({
             service: 'gmail',
             host: "smtp.gmail.com",
@@ -82,7 +84,7 @@ module.exports = {
 
             message = {
                 from: "Matcha Team <ouseqqam.test@gmail.com>",
-                to: userData.email,
+                to: email,
                 subject: "Matcha reset password",
                 html: "<p>Click here to reset your account password <a href=" + url + ">Verify</a></p>"
             }
@@ -91,6 +93,11 @@ module.exports = {
                 if (err) {
                     console.log(err)
                 } else {
+                    const sql = `Insert Into password_resets email = '${email}', token = '${token}'` 
+                    db.query(sql, (err, result) => {
+                        if (err)
+                            return result.send(err)
+                    })
                     res.json("Email verification has been send to your email")
                 }
             })
