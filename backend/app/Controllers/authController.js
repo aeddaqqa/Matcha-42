@@ -93,12 +93,12 @@ module.exports = {
                 if (err) {
                     console.log(err)
                 } else {
-                    const sql = `Insert Into password_resets email = '${email}', token = '${token}'` 
+                    const sql = `INSERT INTO password_resets SET email = '${email}', token = '${token}'` 
                     db.query(sql, (err, result) => {
                         if (err)
-                            return result.send(err)
+                            return res.send(err)
+                        return res.json("Email verification has been send to your email")
                     })
-                    res.json("Email verification has been send to your email")
                 }
             })
         })
