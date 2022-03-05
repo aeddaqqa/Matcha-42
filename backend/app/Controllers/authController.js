@@ -70,7 +70,18 @@ module.exports = {
                 return res.send(err)
             if (result.length == 0)
                 return res.json("Email doesn't exist")
-            
+
+            sql = `SELECT email from password_resets WHERE email = '${email}'`
+            db.query(sql, (err, result) => {
+                if (err)
+                    return res.send(err)
+                if (result.length > 0)
+                sql = `DELETE from password_resets WHERE email = '${email}'`
+                db.query(sql, err => {
+                    if(err)
+                        return res.send(err)
+                })
+            })
             const token = randomstring.generate()
             const url = "http://localhost:3000/resetpassword/" + token
             const transporter = nodemailer.createTransport({
