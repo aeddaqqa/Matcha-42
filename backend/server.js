@@ -13,7 +13,9 @@ const fs = require('fs');
 const dir = './backend/public/images';
 
 if (!fs.existsSync(dir)){
-    fs.mkdirSync(dir);
+    fs.mkdirSync(dir, {
+        recursive: true
+    })
 }
 
 app.use(bodyParser.json())
