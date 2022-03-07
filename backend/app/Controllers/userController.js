@@ -5,7 +5,8 @@ const nodemailer = require("nodemailer");
 
 
 module.exports = {
-    UserStore: (req, res) => {
+    
+    signup: (req, res) => {
         const userData = req.body
         const user = new User()
         db.query(user.findEmail(userData.email), (err, result) => {
@@ -70,7 +71,7 @@ module.exports = {
         })
     },
 
-    CompelteProfile:  (req, res) => {
+    complete:  (req, res) => {
         const user = new User()
         const userData = req.body
         let imgs = userData.gallery
@@ -117,7 +118,7 @@ module.exports = {
         })
     },
 
-    updateUser: (req, res) => {
+    update: (req, res) => {
         const user = new User()
         const userData = req.body
         let imgs = userData.gallery
@@ -162,7 +163,7 @@ module.exports = {
 
 
     UserSelect: (req, res) => {
-     /*   id = req.params.id
+       id = req.params.id
         sql = "SELECT * From users WHERE id = ?"
         db.query(sql, id, (err, result) => {
             if (err)
@@ -190,7 +191,7 @@ module.exports = {
                     return res.json(data)
                 })
             })
-        })*/
+        })
     },
 
     getTags: (req, res) => {
@@ -202,6 +203,4 @@ module.exports = {
             return res.json(result)
         })
     },
-
-
 }

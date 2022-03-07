@@ -39,3 +39,11 @@ CREATE TABLE  IF NOT EXISTS password_resets (
 	token VARCHAR(255),
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE  IF NOT EXISTS likes (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	user_id1 INT,
+	user_id2 INT,
+	FOREIGN KEY (user_id1) REFERENCES users(id),
+	FOREIGN KEY (user_id2) REFERENCES users(id)
+);

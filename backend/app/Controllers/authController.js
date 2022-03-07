@@ -4,9 +4,10 @@ const jwt = require('jsonwebtoken')
 const randomstring = require("randomstring")
 const nodemailer = require("nodemailer");
 const db = require("../../database/db_connection")
+const crypto = require("crypto")
 
 module.exports = {
-    Login: ( req, res ) => {
+    login: ( req, res ) => {
         const { username, password } = req.body
 
         connection.query(`SELECT * FROM users WHERE username = '${username}'`, (err,result) => {
@@ -84,7 +85,7 @@ module.exports = {
                         return res.send(err)
                 })
             })
-            const token = randomstring.generate()
+            const token = randomstring.generate(20)
             const url = "http://localhost:3000/resetpassword/" + token
             const transporter = nodemailer.createTransport({
             service: 'gmail',

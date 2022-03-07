@@ -4,13 +4,12 @@ const app = express()
 const user = require('./routes/routes')
 const bodyParser = require('body-parser')
 const verifyToken = require('./app/middlewares/verifyToken')
-
+const fs = require('fs')
 
 port = process.env.PORT || 3000
 
 
-const fs = require('fs');
-const dir = './backend/public/images';
+const dir = './backend/public/images'
 
 if (!fs.existsSync(dir)){
     fs.mkdirSync(dir, {
@@ -31,4 +30,4 @@ app.post('/api/post', verifyToken.verifyToken, (req, res) => {
 
 app.listen(port, () => {
     console.log('API server started on: ' + port)
-});
+})

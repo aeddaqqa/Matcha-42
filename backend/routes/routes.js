@@ -1,20 +1,18 @@
 const express = require('express')
 const router = express.Router()
-const UserController = require('../app/Controllers/userController')
+const userController = require('../app/Controllers/userController')
 const authController = require('../app/Controllers/authController')
-const messageController = require('../app/Controllers/messageController')
+const likesController = require('../app/Controllers/likesController')
 
-router.post('/signup', UserController.UserStore)
-router.post('/login', authController.Login)
+router.post('/signup', userController.signup)
+router.post('/login', authController.login)
 router.post('/user/verifyEmail', authController.verifyEmail)
 router.post('/forgotpassword', authController.forgotPassword)
-router.post('/resetpassword', authController.resetPassword)
-/*router.post('/message', messageController.MessageStore)
-router.post('/message/show', messageController.getMessage)
-router.post('/user/complete/:id', UserController.CompelteProfile)
-router.get('/user/tags/:search', UserController.getTags)
-router.get('/user/:id', UserController.UserSelect)*/
-
+router.get('/resetpassword', authController.resetPassword)
+router.post('/user/complete/:id', userController.complete)
+router.get('/user/tags/:search', userController.getTags)
+router.get('/user/:id', userController.UserSelect)
+router.post('/user/like', likesController.store)
 
 
 module.exports = router
