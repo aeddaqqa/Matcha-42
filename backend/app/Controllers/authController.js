@@ -113,5 +113,19 @@ module.exports = {
                 }
             })
         })
+    },
+
+    resetPassword: (req, res) => {
+        const token = req.body.token
+
+        let  sql = `SELECT email FROM password_resets WHERE token = '${token}'`
+        db.query(sql, (err, result) => {
+            if (err)
+                console.log(err)
+            if (result.length == 0)
+                return res.json({status: "Failed", Msg: "Invalid token"})
+            const email = result[0].email
+            console.log(email)
+        }) 
     }
 }
