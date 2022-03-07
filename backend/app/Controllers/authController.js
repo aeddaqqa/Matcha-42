@@ -117,7 +117,8 @@ module.exports = {
 
     resetPassword: (req, res) => {
         const token = req.body.token
-
+        const password = req.body.password
+        const salt = 10
         let  sql = `SELECT email FROM password_resets WHERE token = '${token}'`
         db.query(sql, (err, result) => {
             if (err)
@@ -125,7 +126,19 @@ module.exports = {
             if (result.length == 0)
                 return res.json({status: "Failed", Msg: "Invalid token"})
             const email = result[0].email
-            console.log(email)
+            bcrypt.hash(password, salt, (err, hash) => {
+                if (err)
+                    throw err
+                data = {
+                    password: hash
+                }
+                sql = `Update users SET ? WHERE email = '${email}'`
+                db.query(sql, data, (err, result) => {
+                    if (err)
+                        throw err
+                    return res.send(result)
+                })
+            })
         }) 
     }
 }
