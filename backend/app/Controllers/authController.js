@@ -22,7 +22,9 @@ module.exports = {
 
                 bcrypt.compare(password, userPassword, (err, result1) => {
                     if(err)
-                        res.status(401).send("Wrong password")
+                        return res.send(err)
+                    if (result1 == false)
+                        return res.send({Status: "Failed", Msg: "Wrong password."})
                     else
                     {
                         dataUser = [
