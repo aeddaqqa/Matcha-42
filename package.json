@@ -30,6 +30,7 @@
     "leaflet": "^1.7.1",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",

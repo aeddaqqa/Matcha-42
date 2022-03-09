@@ -14,5 +14,9 @@ router.get('/user/tags/:search', userController.getTags)
 router.get('/user/:id', userController.UserSelect)
 router.post('/user/like', likesController.store)
 
+router.get('/user/like/get1/:id', likesController.get1)
+router.get('/user/like/get2/:id', likesController.get2)
+router.get('/user/like/delete/:user_id1/:user_id2', likesController.delete)
+
 
 module.exports = router
