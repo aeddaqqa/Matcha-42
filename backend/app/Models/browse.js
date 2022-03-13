@@ -1,3 +1,6 @@
+const db = require("../../database/db");
+const Like = require("./Likes");
+
 class Browse {
 
     deg2rad(deg) {
@@ -15,6 +18,12 @@ class Browse {
         let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
         const d = R * c;
         return d;
+    }
+
+    getOther(id) {
+        const sql = "SELECT users.* FROM users JOIN likes ON users.id = likes.user_id2 WHERE user_id1 = ?"
+        const sql2 = `SELECT * from users EXCEPT (${sql})`
+        return db.promise().query(sql1, id)
     }
 }
 
