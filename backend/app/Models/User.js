@@ -1,7 +1,14 @@
 const randomstring = require("randomstring");
 const fs = require("fs")
 
-const db = require("../../database/db_connection")
+const mysql = require('mysql2');
+
+const db1 = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'test',
+  database: 'matcha'
+})
 
 class User {
 
@@ -11,6 +18,14 @@ class User {
 
     findUsername(username) {
         return `SELECT username FROM users WHERE username = '${username}'`
+    }
+
+    getOther(id) {
+        return db1.promise().query('SELECT * FROM users WHERE verified = 1 AND complete = 1 AND id != ?', id)
+    }
+
+    getMe(id) {
+        return db1.promise().query('SELECT * FROM users WHERE verified = 1 AND complete = 1 AND id = ?', id)
     }
 
     addUser() {
