@@ -20,10 +20,17 @@ class Browse {
         return d;
     }
 
-    getOther(id) {
-        const sql = "SELECT users.* FROM users JOIN likes ON users.id = likes.user_id2 WHERE user_id1 = ?"
-        const sql2 = `SELECT * from users EXCEPT (${sql})`
-        return db.promise().query(sql1, id)
+    get_id_of_who_I_like(id) {
+        const sql = "SELECT users.id FROM users JOIN likes ON users.id = likes.user_id2 WHERE user_id1 = ?"
+        return db.promise().query(sql, id)
+    }
+
+    getOther(rows, id) {
+        let data = [id]
+        for (let i = 0; i < rows.length; i++)
+            data.push(rows[i].id)
+        let sql = "SELECT * FROM users WHERE " + Object.keys(data).map(key => `id != ?`).join(" and ")
+        return db.promise().query(sql, data)
     }
 }
 

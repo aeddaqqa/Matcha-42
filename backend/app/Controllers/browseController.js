@@ -10,30 +10,22 @@ module.exports = {
         const distance = parseInt(req.params.dis)
         const id = parseInt(req.params.id)
         
-        
-        
-        browse.getOther(id).then(([rows]) => {
-                return res.json(rows)
+        browse.get_id_of_who_I_like(id).then(([rows]) => {
+            browse.getOther(rows, id).then(([rows1]) => {
+                user.getMe(id).then(([rows2]) => {
+                    let lat1 = parseFloat(rows2[0].locationLat)
+                    let long1 = parseFloat(rows2[0].locationLng)
+                    let data = []
+                    for (let i = 0; i < rows1.length; i++) {
+                        let lat2 = parseFloat(rows1[i].locationLat)
+                        let long2 = parseFloat(rows1[i].locationLng)
+                        let d = browse.getDistanceFromLatLonInKm(lat1, long1, lat2, long2)
+                        if (d < distance)
+                            data.push(rows1[i])
+                    }
+                    res.json(data)
+                })
+            })
         })
-        // user.getOther(id).then(([rows]) => {
-        //     if (rows.length == 1)
-        //         return res.json("There is no one just you")
-        //     else {
-        //         user.getMe(id).then(([rows1]) => {
-        //             let lat1 = parseFloat(rows1[0].locationLat)
-        //             let long1 = parseFloat(rows1[0].locationLng)
-        //             let data = []
-        //             for (let i = 0; i < rows.length; i++) {
-        //                 let lat2 = parseFloat(rows[i].locationLat)
-        //                 let long2 = parseFloat(rows[i].locationLng)
-        //                 let d = browse.getDistanceFromLatLonInKm(lat1, long1, lat2, long2)
-        //                 console.log(d)
-        //                 if (d < distance)
-        //                     data.push(rows[i])
-        //             }
-        //             res.json(data)
-        //         })
-        //     }
-        // })
     }
 }
