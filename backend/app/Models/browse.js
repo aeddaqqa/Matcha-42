@@ -26,11 +26,19 @@ class Browse {
     }
 
     getOther(rows, id) {
-        let data = [id]
-        for (let i = 0; i < rows.length; i++)
-            data.push(rows[i].id)
-        let sql = "SELECT * FROM users WHERE " + Object.keys(data).map(key => `id != ?`).join(" and ")
-        return db.promise().query(sql, data)
+        let data = rows
+        data.push({id: id})
+
+        let data1 = []
+        for (let i = 0; i < data.length; i++)
+            data1.push(Object.values(data[i]))
+
+        let keys = []
+        for (let i = 0; i < data.length; i++)
+            keys.push(Object.keys(data[i]))
+        
+        let sql = "SELECT * FROM users WHERE " + keys.map(key => `${key} != ?`).join(" and ")
+        return db.promise().query(sql, data1)
     }
 }
 
