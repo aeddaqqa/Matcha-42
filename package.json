@@ -57,7 +57,7 @@
     "server": "nodemon backend/server.js",
     "dev": "concurrently \"npm run client\" \"npm run server\""
   },
-  "author": "aeddaqqa yabakhar",
+  "author": "aeddaqqa ouseqqam",
   "license": "ISC",
   "devDependencies": {
     "@types/leaflet": "^1.7.9"

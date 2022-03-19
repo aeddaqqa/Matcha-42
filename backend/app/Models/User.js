@@ -20,6 +20,10 @@ class User {
         return `SELECT username FROM users WHERE username = '${username}'`
     }
 
+    selectUser(id) {
+        return db1.promise().query('SELECT * FROM users WHERE id = ?', id)
+    }
+
     getOther(id) {
         return db1.promise().query('SELECT * FROM users WHERE verified = 1 AND complete = 1 AND id != ?', id)
     }
@@ -46,6 +50,10 @@ class User {
 
     checkUser(id) {
         return `SELECT id, complete FROM users WHERE id = ${id}`
+    }
+
+    getTags(id) {
+        return db1.promise().query('SELECT name FROM tags WHERE user_id = ?', id)
     }
 
     putImgToFolder(imgs) {
