@@ -32,48 +32,44 @@ module.exports = {
     test: (req, res) => {
         const id = req.params.id
         user.getTags(id).then(([rows]) => {
-            browse.getsimilar(rows).then(([rows1]) => {
-                let data = rows1
+            browse.get_id_of_who_I_like(id).then(([rows2]) => {
+                browse.getsimilar(rows, rows2, id).then(([rows1]) => {
+                    let data = rows1
 
-                for (let i = 0; i < data.length - 1; i++) {
-                    for(let j = i + 1; j < data.length; j++) {
-                        if (data[i].user_id == data[j].user_id) {
-                            if (Array.isArray(data[i].name))
-                                (data[i].name).push(data[j].name)
-                            else
-                                data[i].name = [data[i].name, data[j].name]
-                            data.splice(j, 1)
-                        }
-                    }
-                }
-                let dataId = []
-                let  k = 5
-                let count = 0
-                let myTagsNumber = rows.length
-                if (data.length <= 5)
-                    for (let i = 0; i < data.length; i++)
-                        dataId.push(data[i].user_id)
-                else if (data.length > 5) {
-                    for (let j = 0; j < data.length; j++) {
-                        for (let i = 0; i < data.length; i++) {
-                            if (Array.isArray(data[i].name)) {
-                                count = data[i].name.length
-                                if (count == myTagsNumber)
+                    for (let i = 0; i < data.length - 1; i++)
+                        for(let j = i + 1; j < data.length; j++)
+                            if (data[i].user_id == data[j].user_id) {
+                                if (Array.isArray(data[i].name))
+                                    (data[i].name).push(data[j].name)
+                                else
+                                    data[i].name = [data[i].name, data[j].name]
+                                data.splice(j, 1)
+                            }
+                    let dataId = []
+                    let  k = 5
+                    let count = 0
+                    let myTagsNumber = rows.length
+                    if (data.length <= 5)
+                        for (let i = 0; i < data.length; i++)
+                            dataId.push(data[i].user_id)
+                    else if (data.length > 5) {
+                        for (let j = 0; j < data.length; j++) {
+                            for (let i = 0; i < data.length; i++) {
+                                if (Array.isArray(data[i].name)) {
+                                    count = data[i].name.length
+                                    if (count == myTagsNumber) {
+                                        dataId.push(data[i].user_id)
+                                    }
+                                }
+                                if (myTagsNumber == 1 && !Array.isArray(data[i].name)) {
                                     dataId.push(data[i].user_id)
-                            }
-                            if (myTagsNumber == 1 && !Array.isArray(data[i].name)) {
-                                dataId.push(data[i].user_id)
+                                }
                             }
                         }
-                        myTagsNumber--
-                        if (myTagsNumber == 0)
-                            break
                     }
-                }
-
-
-
-                res.json(dataId)
+                    
+                    res.json(dataId)
+                })
             })
         })
     }
