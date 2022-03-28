@@ -65,11 +65,20 @@ class Browse {
         return db.promise().query(sql, data1)
     }
 
-    getUser (data){
-        sql = "SELECT * from users where "  + data.map(key => 'id = ?').join(' or ')
+    getUser (data, gender) {
+        let genderQuery = " and gender = ?"
+        sql = "SELECT * from users where ("  + data.map(key => 'id = ?').join(' or ') + ")" + genderQuery
+        data.push(gender)
         return db.promise().query(sql, data)
     }
 
+    getSomeData (id) {
+        sql = "SELECT sexualPreference, birthdate, locationLat, locationLng FROM users Where id = ?"
+        return db.promise().query(sql, id)
+    }
+
 }
+
+
 
 module.exports = Browse
