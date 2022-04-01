@@ -46,7 +46,7 @@
     "react-swipeable": "^6.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
-    "socket.io": "^4.4.0",
+    "socket.io": "^4.4.1",
     "styled-components": "^5.3.3",
     "sweetalert2": "^11.4.0",
     "sweetalert2-react-content": "^4.2.0",

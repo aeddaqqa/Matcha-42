@@ -1,17 +1,15 @@
+const db = require("../../database/db");
+
 class Message {
-    constructor(data) {
-        this.sender_id = data.sender_id
-        this.receiver_id = data.receiver_id,
-        this.message = data.message
-    }
-    
 
-    insert() {
-        return `INSERT INTO messages(sender_id, receiver_id, message) VALUES ('${this.sender_id}', '${this.receiver_id}', '${this.message}')`
+    insert(msgData) {
+        let sql = "Insert INTO messages SET ?"
+        return db.promise().query(sql, msgData)
     }
 
-    get() {
-        return `SELECT * FROM messages WHERE sender_id= '${this.sender_id}'`
+    get(id) {
+        let sql = "SELECT FROM messages WHERE (user_id1 = ? and user_id2 = ?) OR (user_id1 = ? and user_id2 = ?)"
+        return db.promise().query(sql, id)
     }
 }
 

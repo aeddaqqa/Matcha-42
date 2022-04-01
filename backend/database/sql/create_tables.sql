@@ -48,3 +48,13 @@ CREATE TABLE  IF NOT EXISTS likes (
 	FOREIGN KEY (user_id1) REFERENCES users(id),
 	FOREIGN KEY (user_id2) REFERENCES users(id)
 );
+
+CREATE TABLE  IF NOT EXISTS messages (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	user_id1 INT,
+	user_id2 INT,
+	msg VARCHAR(255),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (user_id1) REFERENCES users(id),
+	FOREIGN KEY (user_id2) REFERENCES users(id)
+);
