@@ -69,7 +69,12 @@ module.exports = {
         } catch(err) {
             console.log(err)
         }
+    },
+
+    test: async (req, res) => {
+        let distance = req.query.distance
+        let id = req.query.id
+        if (distance)
+            console.log(distance, id)
     }
 }
-
-
