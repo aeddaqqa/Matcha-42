@@ -1,3 +1,9 @@
+const express = require('express')
+const app = express()
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 const Message = require("../Models/Message")
 const message = new Message()
 
@@ -6,8 +12,14 @@ module.exports = {
         const msgData = req.body
         try {
             const [result] = await message.insert(msgData)
-            if (result.affectedRows == 1)
+            if (result.affectedRows == 1) {
+                io.on('connection', socket => {
+                    socket.on('chat message', msgData => {
+                        io.emit('chat message', msgData.msg);
+                    })
+                });
                 res.json({status: 200})
+            }
         } catch(err) {
             console.log(err)
         }

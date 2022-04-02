@@ -5,6 +5,7 @@ const authController = require('../app/Controllers/authController')
 const likesController = require('../app/Controllers/likesController')
 const browseController = require('../app/Controllers/browseController')
 const messageController = require('../app/Controllers/messageController')
+const friendController = require('../app/Controllers/friendController')
 
 router.post('/signup', userController.signup)
 router.post('/login', authController.login)
@@ -22,6 +23,8 @@ router.get('/user/like/get2/:id', likesController.get2)
 router.get('/user/like/delete/:user_id1/:user_id2', likesController.delete)
 router.get('/user/browse/get/:id', browseController.get)
 router.get('/user/msg/get', messageController.get)
+
+router.get('/user/friend/get/:id', friendController.get)
 
 
 module.exports = router
