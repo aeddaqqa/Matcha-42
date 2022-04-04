@@ -2,73 +2,66 @@ const db = require("../../database/db_connection")
 const User = require("../Models/User")
 const randomstring = require("randomstring")
 const nodemailer = require("nodemailer");
-
+const user = new User()
 
 module.exports = {
-    
-    signup: (req, res) => {
+    signup: async (req, res) => {
         const userData = req.body
-        const user = new User()
-        db.query(user.findEmail(userData.email), (err, result) => {
-            if (err)
-                return res.send(err.sqlMessage)
-            else
-            {
-                let count = Object.keys(result).length
-                let i = 0 
-                if (count != 0)
-                    i = 2
-                db.query(user.findUsername(userData.username), (err, result) => {
-                    if (err)
-                        return res.send(err.sqlMessage)
-                    let count = Object.keys(result).length
-                    if (count != 0)
-                        i++
-                    if (i != 0)
-                    {
-                        if (i == 1)
-                            res.status(400).json("Username was exist")
-                        else if (i == 2)
-                            res.status(400).json("Email was exist")
-                        else if (i == 3)
-                            res.status(400).json("Email and username were exist")
-                    }
-                    else {
-                        const token = randomstring.generate()
-                        userData.token = token
-                        db.query(user.addUser(),userData, (err, result) => {
-                            if (err)
-                                return res.send(err.sqlMessage)
-                            
-                            const url = "http://localhost:3000/" + token
-                            const transporter = nodemailer.createTransport({
-                                service: 'gmail',
-                                host: "smtp.gmail.com",
-                                auth: {
-                                    user: "ouseqqam.test@gmail.com",
-                                    pass: "Outest@2022"
-                                }
-                            });
-
-                            message = {
-                                from: "Matcha Team <ouseqqam.test@gmail.com>",
-                                to: userData.email,
-                                subject: "Matcha email verification",
-                                html: "<p>Click to verify to verify your account <a href=" + url + ">Verify</a></p>"
-                            }
-                            
-                               transporter.sendMail(message, (err, info) => {
-                                    if (err) {
-                                        console.log(err)
-                                    } else {
-                                        res.json("Email verification has been send to your email")
-                                    }
-                                })
-                        })
-                    }
-                })
+        msg = user.validateSignUp(userData)
+        if (msg)
+            return res.json({Status: "Failed", msg})
+        try {
+            let [result] = await user.findEmail(userData.email)
+            let count = Object.keys(result).length
+            let i = 0 
+            if (count != 0)
+            i = 2
+            let [result1] = await user.findUsername(userData.username)
+            count = Object.keys(result1).length
+            if (count != 0)
+                i++
+            if (i != 0) {
+                if (i == 1)
+                    res.status(400).json("Username was exist")
+                else if (i == 2)
+                    res.status(400).json("Email was exist")
+                else if (i == 3)
+                    res.status(400).json("Email and username were exist")
             }
-        })
+            else {
+                const token = randomstring.generate()
+                userData.token = token
+                let [result2] = await user.addUser(userData)
+                if (result2.affectedRows) {
+                    const url = "http://localhost:3000/" + token
+                    const transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        host: "smtp.gmail.com",
+                        auth: {
+                            user: "ouseqqam.test@gmail.com",
+                            pass: "Outest@2022"
+                        }
+                    });
+
+                    message = {
+                        from: "Matcha Team <ouseqqam.test@gmail.com>",
+                        to: userData.email,
+                        subject: "Matcha email verification",
+                        html: "<p>Click to verify your account <a href=" + url + ">Verify</a></p>"
+                    }
+                                
+                    transporter.sendMail(message, (err, info) => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            res.json("Email verification has been send to your email")
+                        }
+                    })
+                }
+            }
+        } catch (err) {
+            console.log(err)
+        }
     },
 
     complete:  (req, res) => {

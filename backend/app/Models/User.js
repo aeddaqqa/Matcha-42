@@ -1,23 +1,32 @@
 const randomstring = require("randomstring");
-const fs = require("fs")
-
-const mysql = require('mysql2');
-
-const db1 = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'test',
-  database: 'matcha'
-})
+const fs = require("fs");
+const db = require("../../database/db");
 
 class User {
 
+    validateSignUp (userData) {
+        let msg = []
+        if (!userData.firstName)
+            msg.push("firstName must not be empty")
+        if (!userData.lastName)
+            msg.push("lastName must not be empty")
+        if (!userData.username)
+            msg.push("username must not be empty")
+        if (!userData.email)
+            msg.push("email must not be empty")
+        if (!userData.password)
+            msg.push("password must not be empty")
+        return msg
+    }
+
     findEmail(email) {
-        return `SELECT email FROM users WHERE email = '${email}'`
+        let sql = "SELECT email FROM users WHERE email = ?"
+        return db.promise().query(sql, email)
     }
 
     findUsername(username) {
-        return `SELECT username FROM users WHERE username = '${username}'`
+        let sql = "SELECT username FROM users WHERE username = ?"
+        return db.promise().query(sql, username)
     }
 
     selectUser(id) {
@@ -32,8 +41,9 @@ class User {
         return db1.promise().query('SELECT * FROM users WHERE verified = 1 AND complete = 1 AND id = ?', id)
     }
 
-    addUser() {
-        return "INSERT INTO users SET ?"
+    addUser(userData) {
+        let sql = "INSERT INTO users SET ?"
+        return db.promise().query(sql, userData)
     }
 
     updateUser(id) {
