@@ -2,12 +2,24 @@ const randomstring = require("randomstring");
 const fs = require("fs");
 const db = require("../../database/db");
 
-class User {
+const patterns = {
+    firstName: /^\d$/
+}
 
+class User {
+    validate(field, regex) {
+        return regex.test(field.value)
+    }
     validateSignUp (userData) {
         let msg = []
         if (!userData.firstName)
             msg.push("firstName must not be empty")
+        else
+        {
+            console.log(typeof(userData.firstName))
+            msg.push(this.validate(userData.firstName, patterns.firstName))
+
+        }
         if (!userData.lastName)
             msg.push("lastName must not be empty")
         if (!userData.username)
