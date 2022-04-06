@@ -3,22 +3,23 @@ const fs = require("fs");
 const db = require("../../database/db");
 
 const patterns = {
-    firstName: /^\d$/
+    name: /^[a-z]{2,10}$/
 }
 
 class User {
     validate(field, regex) {
-        return regex.test(field.value)
+         let test =  regex.test(field.value)
+        // console.log(test)
+        return test
     }
     validateSignUp (userData) {
         let msg = []
         if (!userData.firstName)
             msg.push("firstName must not be empty")
-        else
-        {
-            console.log(typeof(userData.firstName))
-            msg.push(this.validate(userData.firstName, patterns.firstName))
-
+        else {
+           let reg = patterns.name
+           let test = reg.test(userData.firstName)
+            msg.push(test)
         }
         if (!userData.lastName)
             msg.push("lastName must not be empty")
