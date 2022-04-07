@@ -3,32 +3,55 @@ const fs = require("fs");
 const db = require("../../database/db");
 
 const patterns = {
-    name: /^[a-z]{2,10}$/
+    name: /^[a-z]{2,10}$/,
+    username: /^[a-z\d]{5,10}$/,
+    password: /^[\w@-]{8,14}$/,
+    email: /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
 }
 
 class User {
-    validate(field, regex) {
-         let test =  regex.test(field.value)
-        // console.log(test)
-        return test
-    }
     validateSignUp (userData) {
         let msg = []
         if (!userData.firstName)
-            msg.push("firstName must not be empty")
+            msg.push({"firstName": "Firstname must not be empty"})
         else {
            let reg = patterns.name
            let test = reg.test(userData.firstName)
-            msg.push(test)
+           if (test == false)
+            msg.push({"firstName": "Firsname must contain just alphabet"})
         }
         if (!userData.lastName)
-            msg.push("lastName must not be empty")
+            msg.push({"lastName": "Lastname must not be empty"})
+        else {
+            let reg = patterns.name
+            let test = reg.test(userData.lastName)
+            if (test == false)
+                msg.push({"lastName": "Lastname must contain just alphabet"})
+        }
         if (!userData.username)
-            msg.push("username must not be empty")
+            msg.push({"username": "Username must not be empty"})
+        else {
+            let reg = patterns.username
+            let test = reg.test(userData.username)
+            if (test == false)
+                msg.push({"Username": "username must be alphanumeric and contain 5 - 10 caracters"})
+        }
         if (!userData.email)
-            msg.push("email must not be empty")
+            msg.push({"email": "Email must not be empty"})
+        else {
+            let reg = patterns.password
+            let test = reg.test(userData.password)
+            if (test == false)
+                msg.push({"email": "Email must be a valid adress, example: me@mydomain.com"})
+        }
         if (!userData.password)
-            msg.push("password must not be empty")
+            msg.push({"password":"Password must not be empty"})
+        else {
+            let reg = patterns.password
+            let test = reg.test(userData.password)
+            if (test == false)
+                msg.push({"password": "Password must alphanumeric (@, _, - are also allowed) and be 8 - 14"})
+        }
         return msg
     }
 

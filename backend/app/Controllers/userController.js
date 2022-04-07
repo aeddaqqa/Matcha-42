@@ -8,7 +8,7 @@ module.exports = {
     signup: async (req, res) => {
         const userData = req.body
         msg = user.validateSignUp(userData)
-        if (msg)
+        if (msg.length)
             return res.json({Status: "Failed", msg})
         try {
             let [result] = await user.findEmail(userData.email)
