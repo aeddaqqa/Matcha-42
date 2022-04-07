@@ -6,7 +6,13 @@ const user = new User()
 
 module.exports = {
     signup: async (req, res) => {
-        const userData = req.body
+        const userData = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            username: req.body.username,
+            email: req.body.email,
+            password:req.body.password
+        }
         msg = user.validateSignUp(userData)
         if (msg.length)
             return res.json({Status: "Failed", msg})
@@ -64,7 +70,40 @@ module.exports = {
         }
     },
 
-    complete:  (req, res) => {
+    complete:  async (req, res) => {
+        try {
+            const userData = req.body
+            let imgs = userData.gallery
+            let tags = userData.listOfInterests
+            delete userData.gallery
+            delete userData.listOfInterests
+            let [result] = await user.checkUser(req.params.id)
+            if (!result[0].verified)
+                return res.json("You need to verify your account.")
+
+            userData["complete"] = 1
+            if (result[0].complete == 0) {
+                let [result1] = await user.updateUser(req.params.id, userData)
+                user.putImgToFolder(imgs)
+                let result2 = []
+                for (let i = 0; i < imgs.length; i++)
+                    [result2] = await user.addImage(req.params.id, imgs[i])
+                console.log(result2)
+                let result3 = []
+                for (let i = 0; i < tags.length; i++)
+                    [result3] = await user.addTags(req.params.id, tags[i])
+                    console.log(result3)
+                //return res.json({Status: "Success", Msg: "User profile has been completed."})
+            }
+            else
+                return res.json({Status: "Failed", Msg:"Profile already completed"})
+        } catch (err) {
+            console.log(err)
+        }
+
+    },
+
+    complete1:  (req, res) => {
         const user = new User()
         const userData = req.body
         let imgs = userData.gallery

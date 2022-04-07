@@ -82,12 +82,14 @@ class User {
         return db.promise().query(sql, userData)
     }
 
-    updateUser(id) {
-        return `UPDATE users SET ? WHERE id = ${id}` 
+    updateUser(id, userData) {
+        let sql =  "UPDATE users SET ? WHERE id = ?"
+        return db.promise().query(sql, [userData, id])
     }
 
-    addImage(id) {
-        return `INSERT INTO images SET name = ?, user_id = ${id}`
+    addImage(id, name) {
+        let sql = "INSERT INTO images SET name = ?, user_id = ?"
+        return db.promise().query(sql, [name, id])
     }
 
     addTags(id) {
@@ -95,7 +97,8 @@ class User {
     }
 
     checkUser(id) {
-        return `SELECT id, complete FROM users WHERE id = ${id}`
+        let sql =  "SELECT id, complete, verified FROM users WHERE id = ?"
+        return db.promise().query(sql, id)
     }
 
     getTags(id) {
