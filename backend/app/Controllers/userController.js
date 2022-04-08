@@ -1,7 +1,8 @@
-const db = require("../../database/db_connection")
 const User = require("../Models/User")
 const randomstring = require("randomstring")
-const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer")
+const bcrypt = require('bcrypt')
+const salt = 10
 const user = new User()
 
 module.exports = {
@@ -17,6 +18,8 @@ module.exports = {
         if (msg.length)
             return res.json({Status: "Failed", msg})
         try {
+            userData.password = bcrypt.hashSync(userData.password, salt);
+            console.log(userData)
             let [result] = await user.findEmail(userData.email)
             let count = Object.keys(result).length
             let i = 0 
@@ -88,12 +91,11 @@ module.exports = {
                 let result2 = []
                 for (let i = 0; i < imgs.length; i++)
                     [result2] = await user.addImage(req.params.id, imgs[i])
-                console.log(result2)
                 let result3 = []
+                console.log(tags)
                 for (let i = 0; i < tags.length; i++)
                     [result3] = await user.addTags(req.params.id, tags[i])
-                    console.log(result3)
-                //return res.json({Status: "Success", Msg: "User profile has been completed."})
+                return res.json({Status: "Success", Msg: "User profile has been completed."})
             }
             else
                 return res.json({Status: "Failed", Msg:"Profile already completed"})
@@ -101,53 +103,6 @@ module.exports = {
             console.log(err)
         }
 
-    },
-
-    complete1:  (req, res) => {
-        const user = new User()
-        const userData = req.body
-        let imgs = userData.gallery
-        let tags = userData.listOfInterests
-        delete userData.gallery
-        delete userData.listOfInterests
-
-        const set = user.updateUser(req.params.id)
-
-        db.query(user.checkUser(req.params.id), (err, result) => {
-            if (err)
-                return res.status(500).send(err)
-            else
-                if (result.length == 1) {
-                    userData["complete"] = 1
-                    if (result[0].complete == 0)
-                        db.query(set, userData, (err, result) => {
-                            if (err)
-                                return res.status(500).send(err)
-                            else {
-                                user.putImgToFolder(imgs)
-                                for (let i = 0; i < imgs.length; i++) {
-                                    db.query(user.addImage(req.params.id), imgs[i], (err, result) => {
-                                        if (err)
-                                            return res.status(500).send(err)
-                                    })
-                                }
-                                
-                                for (let i = 0; i < tags.length; i++) {
-                                    db.query(user.addTags(req.params.id), tags[i], (err, result) => {
-                                        if (err)
-                                            return res.status(500).send(err)
-                                    })
-                                }
-
-                                return res.json({Status: "Success", Msg: "User profile has been completed."})
-                            }
-                        })
-                    else
-                        return res.json({Status: "Failed", Msg:"Profile already completed"})
-                }
-                else
-                    return res.json({Status: "Failed", Msg:"User doesn't exist."})
-        })
     },
 
     update: (req, res) => {

@@ -92,8 +92,9 @@ class User {
         return db.promise().query(sql, [name, id])
     }
 
-    addTags(id) {
-        return `INSERT INTO tags SET name = ?, user_id = ${id}`
+    addTags(id, name) {
+        let sql = "INSERT INTO tags SET name = ?, user_id = ?"
+        return db.promise().query(sql, [name, id])
     }
 
     checkUser(id) {
