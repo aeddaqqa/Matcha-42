@@ -7,8 +7,9 @@ const patterns = {
     username: /^[a-z\d]{5,10}$/,
     password: /^[\w@-]{8,14}$/,
     email: /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
-    gender: /^[a-z]{4,6}$/i,
-    biography: /^[\w]$/
+    biography: /^[\w\s,\.]{2,100}$/,
+    birthdate: /^(0[1-9]|1[0-2])([\/.-])(0[1-9]|[12]\d|3[01])$/,
+    float: /^[+-]?([0-9]*[.])?[0-9]+$/,
 }
 
 class User {
@@ -41,8 +42,8 @@ class User {
         if (!userData.email)
             msg.push({"email": "Email must not be empty"})
         else {
-            let reg = patterns.password
-            let test = reg.test(userData.password)
+            let reg = patterns.email
+            let test = reg.test(userData.email)
             if (test == false)
                 msg.push({"email": "Email must be a valid adress, example: me@mydomain.com"})
         }
@@ -54,6 +55,68 @@ class User {
             if (test == false)
                 msg.push({"password": "Password must alphanumeric (@, _, - are also allowed) and be 8 - 14"})
         }
+        return msg
+    }
+
+    validateCompeteProfil (userData) {
+        let msg = []
+        if (!userData.gender)
+            msg.push({"gender": "gender must not be empty"})
+        else {
+           let reg = patterns.name
+           let test = reg.test(userData.gender)
+           if (test == false)
+            msg.push({"gender": " must contain just alphabet"})
+        }
+        if (!userData.sexualPreference)
+            msg.push({"sexualPreference": "sexualPreference must not be empty"})
+        else {
+            let reg = patterns.name
+            let test = reg.test(userData.sexualPreference)
+            if (test == false)
+                msg.push({"sexualPreference": "sexualPreference must contain just alphabet"})
+        }
+        if (!userData.biography)
+            msg.push({"biography": "biography must not be empty"})
+        else {
+            let reg = patterns.biography
+            let test = reg.test(userData.biography)
+            if (test == false)
+                msg.push({"biography": "biography must be alphanumeric"})
+        }
+        // if (!userData.birthdate)
+        //     msg.push({"birthdate": "birthdate must not be empty"})
+        // else {
+        //     let reg = patterns.birthdate
+        //     let test = reg.test(userData.birthdate)
+        //     if (test == false)
+        //         msg.push({"birthdate": "birthdate must be a valid date, example: 11/05/2000"})
+        // }
+        if (!userData.locationLat)
+            msg.push({"locationLat":"locationLat must not be empty"})
+        else {
+            let reg = patterns.float
+            let test = reg.test(userData.locationLat)
+            if (test == false)
+                msg.push({"locationLat": "locationLat must be numeric, example: 32.88108"})
+        }
+        if (!userData.locationLng)
+            msg.push({"locationLng":"locationLng must not be empty"})
+        else {
+            let reg = patterns.float
+            let test = reg.test(userData.locationLng)
+            if (test == false)
+                msg.push({"locationLng": "locationLng must be numeric, example: -6.9063"})
+        }
+        if (!userData.rating)
+            msg.push({"rating":"rating must not be empty"})
+        else {
+            let reg = patterns.float
+            let test = reg.test(userData.rating)
+            if (test == false)
+                msg.push({"rating": "rating must be numeric, example: 3"})
+        }
+        
         return msg
     }
 

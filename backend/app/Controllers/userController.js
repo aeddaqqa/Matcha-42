@@ -19,7 +19,6 @@ module.exports = {
             return res.json({Status: "Failed", msg})
         try {
             userData.password = bcrypt.hashSync(userData.password, salt);
-            console.log(userData)
             let [result] = await user.findEmail(userData.email)
             let count = Object.keys(result).length
             let i = 0 
@@ -84,17 +83,21 @@ module.exports = {
                 "locationLng": req.body.locationLng,
                 "rating": req.body.rating,
             }
+            msg = user.validateCompeteProfil(userData)
+            if (msg.length)
+                return res.json({Status: "Failed", msg})
             const imgs = req.body.gallery
             const tags = req.body.listOfInterests
 
             const [result] = await user.checkUser(req.params.id)
-            if (!result[0].verified)
+            if (result[0].verified)
                 return res.json("You need to verify your account.")
 
             userData["complete"] = 1
             if (result[0].complete == 0) {
                 const [result1] = await user.updateUser(req.params.id, userData)
                 user.putImgToFolder(imgs)
+                return res.json(imgs)
                 let result2 = []
                 for (let i = 0; i < imgs.length; i++)
                     [result2] = await user.addImage(req.params.id, imgs[i])
