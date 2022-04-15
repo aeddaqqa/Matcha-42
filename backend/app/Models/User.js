@@ -3,10 +3,12 @@ const fs = require("fs");
 const db = require("../../database/db");
 
 const patterns = {
-    name: /^[a-z]{2,10}$/,
+    name: /^[a-z]{2,10}$/i,
     username: /^[a-z\d]{5,10}$/,
     password: /^[\w@-]{8,14}$/,
-    email: /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
+    email: /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
+    gender: /^[a-z]{4,6}$/i,
+    biography: /^[\w]$/
 }
 
 class User {
@@ -69,13 +71,13 @@ class User {
         return db1.promise().query('SELECT * FROM users WHERE id = ?', id)
     }
 
-    getOther(id) {
-        return db1.promise().query('SELECT * FROM users WHERE verified = 1 AND complete = 1 AND id != ?', id)
-    }
+    // getOther(id) {
+    //     return db1.promise().query('SELECT * FROM users WHERE verified = 1 AND complete = 1 AND id != ?', id)
+    // }
 
-    getMe(id) {
-        return db1.promise().query('SELECT * FROM users WHERE verified = 1 AND complete = 1 AND id = ?', id)
-    }
+    // getMe(id) {
+    //     return db1.promise().query('SELECT * FROM users WHERE verified = 1 AND complete = 1 AND id = ?', id)
+    // }
 
     addUser(userData) {
         let sql = "INSERT INTO users SET ?"
@@ -103,7 +105,7 @@ class User {
     }
 
     getTags(id) {
-        return db1.promise().query('SELECT name FROM tags WHERE user_id = ?', id)
+        return db.promise().query('SELECT name FROM tags WHERE user_id = ?', id)
     }
 
     putImgToFolder(imgs) {

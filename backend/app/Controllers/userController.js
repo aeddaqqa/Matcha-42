@@ -75,18 +75,25 @@ module.exports = {
 
     complete:  async (req, res) => {
         try {
-            const userData = req.body
-            let imgs = userData.gallery
-            let tags = userData.listOfInterests
-            delete userData.gallery
-            delete userData.listOfInterests
-            let [result] = await user.checkUser(req.params.id)
+            const userData = {
+                "gender": req.body.gender,
+                "sexualPreference": req.body.sexualPreference,
+                "biography": req.body.biography,
+                "birthdate": req.body.birthdate,
+                "locationLat": req.body.locationLat,
+                "locationLng": req.body.locationLng,
+                "rating": req.body.rating,
+            }
+            const imgs = req.body.gallery
+            const tags = req.body.listOfInterests
+
+            const [result] = await user.checkUser(req.params.id)
             if (!result[0].verified)
                 return res.json("You need to verify your account.")
 
             userData["complete"] = 1
             if (result[0].complete == 0) {
-                let [result1] = await user.updateUser(req.params.id, userData)
+                const [result1] = await user.updateUser(req.params.id, userData)
                 user.putImgToFolder(imgs)
                 let result2 = []
                 for (let i = 0; i < imgs.length; i++)
