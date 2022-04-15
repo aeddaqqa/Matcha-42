@@ -1,6 +1,7 @@
 const randomstring = require("randomstring");
 const fs = require("fs");
 const db = require("../../database/db");
+const sizeOf = require('image-size')
 
 const patterns = {
     name: /^[a-z]{2,10}$/i,
@@ -176,6 +177,9 @@ class User {
             const name = randomstring.generate() + "_" + Date.now()
             const extension = imgs[i].split(';')[0].split('/')[1]
             let img = imgs[i].split(';base64,')[1];
+            sizeOf(img, function (err, dimensions) {
+                console.log(err)
+            })
             fs.writeFile(`backend/public/images/${name}.${extension}`, img, {encoding: 'base64'}, err => {
                 if (err)
                     console.log(err)
