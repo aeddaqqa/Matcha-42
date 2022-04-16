@@ -1,7 +1,9 @@
 const randomstring = require("randomstring");
 const fs = require("fs");
 const db = require("../../database/db");
-const sizeOf = require('image-size')
+const sizeOf = require('image-size');
+const { compareSync } = require("bcrypt");
+
 
 const patterns = {
     name: /^[a-z]{2,10}$/i,
@@ -59,7 +61,7 @@ class User {
         return msg
     }
 
-    validateCompeteProfil (userData) {
+    validateCompeteProfil (userData, imgs) {
         let msg = []
         if (!userData.gender)
             msg.push({"gender": "gender must not be empty"})
@@ -117,9 +119,36 @@ class User {
             if (test == false)
                 msg.push({"rating": "rating must be numeric, example: 3"})
         }
-        
+        if (!imgs.length)
+            msg.push({"Gallery":"Gallery must not be empty"})
+        else {
+            let msgs = []
+            for(let i = 0; i < imgs.length; i++) {
+                let img = Buffer.from(imgs[i].substr(23), 'base64')
+                try{
+                    let dimension = sizeOf(img)
+                } catch(err) {
+                    let key = "Picture number " + i
+                    msgs.push(`Picture number ${i + 1} is not valid`)
+                }
+            }
+            msg.push({"Gallery": msgs})
+        }
         return msg
     }
+
+    validateImg(imgs, msg) {
+        for(let i = 0; i < imgs.length; i++) {
+            let img = Buffer.from(imgs[i].substr(23), 'base64')
+            try{
+                let dimension = sizeOf(img)
+            } catch(err) {
+                let key = "Picture number " + i
+                msg.push({ "Gallery":`Picture number ${i + 1} is not valid`})
+            }
+        }
+    }
+
 
     findEmail(email) {
         let sql = "SELECT email FROM users WHERE email = ?"
@@ -176,10 +205,7 @@ class User {
         for(let i = 0; i < imgs.length; i++) {
             const name = randomstring.generate() + "_" + Date.now()
             const extension = imgs[i].split(';')[0].split('/')[1]
-            let img = imgs[i].split(';base64,')[1];
-            sizeOf(img, function (err, dimensions) {
-                console.log(err)
-            })
+            let img = imgs[i].split(';base64,')[1]
             fs.writeFile(`backend/public/images/${name}.${extension}`, img, {encoding: 'base64'}, err => {
                 if (err)
                     console.log(err)
