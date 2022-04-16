@@ -85,10 +85,9 @@ module.exports = {
             }
             const imgs = req.body.gallery
             const tags = req.body.listOfInterests
-            msg = user.validateCompeteProfil(userData, imgs)
+            msg = user.validateCompeteProfil(userData, imgs, tags)
             if (msg.length)
                 return res.json({Status: "Failed", msg})
-
             const [result] = await user.checkUser(req.params.id)
             if (result[0].verified)
                 return res.json("You need to verify your account.")

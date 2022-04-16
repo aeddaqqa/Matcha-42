@@ -11,7 +11,7 @@ const patterns = {
     password: /^[\w@-]{8,14}$/,
     email: /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
     biography: /^[\w\s,\.]{2,100}$/,
-    birthdate: /^(0[1-9]|1[0-2])([\/.-])(0[1-9]|[12]\d|3[01])$/,
+    birthdate: /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/(19|20)\d\d$/,
     float: /^[+-]?([0-9]*[.])?[0-9]+$/,
 }
 
@@ -61,7 +61,7 @@ class User {
         return msg
     }
 
-    validateCompeteProfil (userData, imgs) {
+    validateCompeteProfil (userData, imgs, tags) {
         let msg = []
         if (!userData.gender)
             msg.push({"gender": "gender must not be empty"})
@@ -87,14 +87,14 @@ class User {
             if (test == false)
                 msg.push({"biography": "biography must be alphanumeric"})
         }
-        // if (!userData.birthdate)
-        //     msg.push({"birthdate": "birthdate must not be empty"})
-        // else {
-        //     let reg = patterns.birthdate
-        //     let test = reg.test(userData.birthdate)
-        //     if (test == false)
-        //         msg.push({"birthdate": "birthdate must be a valid date, example: 11/05/2000"})
-        // }
+        if (!userData.birthdate)
+            msg.push({"birthdate": "birthdate must not be empty"})
+        else {
+            let reg = patterns.birthdate
+            let test = reg.test(userData.birthdate)
+            if (test == false)
+                msg.push({"birthdate": "birthdate must be a valid date, example: 11/05/2000"})
+        }
         if (!userData.locationLat)
             msg.push({"locationLat":"locationLat must not be empty"})
         else {
@@ -133,6 +133,18 @@ class User {
                 }
             }
             msg.push({"Gallery": msgs})
+        }
+        if (!tags.length || tags ==null)
+            msg.push({"listOfInterests": "listOfInterests must not be empty"})
+        else {
+            let msgs = []
+            for(let i = 0; i < tags.length; i++) {
+                let reg = patterns.name
+                let test = reg.test(tags[i])
+                if (test == false)
+                    msgs.push(`Tag number ${i + 1} must be an aphabet string`)
+            }
+            msg.push({"listOfInterests": msgs})
         }
         return msg
     }
