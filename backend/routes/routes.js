@@ -7,12 +7,19 @@ const browseController = require('../app/Controllers/browseController')
 const messageController = require('../app/Controllers/messageController')
 const friendController = require('../app/Controllers/friendController')
 
+
+/* -------------------- Sign up and sign in ----------------------------*/
+
 router.post('/signup', userController.signup)
 router.post('/login', authController.login)
 router.post('/user/verifyEmail', authController.verifyEmail)
 router.post('/forgotpassword', authController.forgotPassword)
 router.get('/resetpassword', authController.resetPassword)
+
+/* ----------------------------- End  -----------------------------------*/
+
 router.post('/user/complete/:id', userController.complete)
+router.post('/user/update/:id', userController.update)
 router.get('/user/tags/:search', userController.getTags)
 router.get('/user/:id', userController.UserSelect)
 router.post('/user/like', likesController.store)

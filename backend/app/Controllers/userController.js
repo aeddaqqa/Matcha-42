@@ -75,13 +75,13 @@ module.exports = {
     complete:  async (req, res) => {
         try {
             const userData = {
-                "gender": req.body.gender,
-                "sexualPreference": req.body.sexualPreference,
-                "biography": req.body.biography,
-                "birthdate": req.body.birthdate,
-                "locationLat": req.body.locationLat,
-                "locationLng": req.body.locationLng,
-                "rating": req.body.rating,
+                gender: req.body.gender,
+                sexualPreference: req.body.sexualPreference,
+                biography: req.body.biography,
+                birthdate: req.body.birthdate,
+                locationLat: req.body.locationLat,
+                locationLng: req.body.locationLng,
+                rating: req.body.rating
             }
             const imgs = req.body.gallery
             const tags = req.body.listOfInterests
@@ -93,21 +93,19 @@ module.exports = {
                 return res.json("You need to verify your account.")
 
             userData["complete"] = 1
-        //    if (result[0].complete == 0) {
+            if (result[0].complete == 0) {
                 const [result1] = await user.updateUser(req.params.id, userData)
                 user.putImgToFolder(imgs)
-                return res.json(imgs)
                 let result2 = []
                 for (let i = 0; i < imgs.length; i++)
                     [result2] = await user.addImage(req.params.id, imgs[i])
                 let result3 = []
-                console.log(tags)
                 for (let i = 0; i < tags.length; i++)
                     [result3] = await user.addTags(req.params.id, tags[i])
                 return res.json({Status: "Success", Msg: "User profile has been completed."})
-            // }
-            // else
-            //     return res.json({Status: "Failed", Msg:"Profile already completed"})
+            }
+             else
+                 return res.json({Status: "Failed", Msg:"Profile already completed"})
         } catch (err) {
             console.log(err)
         }
@@ -115,13 +113,26 @@ module.exports = {
     },
 
     update: (req, res) => {
-        const user = new User()
-        const userData = req.body
-        let imgs = userData.gallery
-        let tags = userData.listOfInterests
-        delete userData.gallery
-        delete userData.listOfInterests
-
+        const userData = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            username: req.body.username,
+            email: req.body.email,
+            password:req.body.password,
+            gender: req.body.gender,
+            sexualPreference: req.body.sexualPreference,
+            biography: req.body.biography,
+            birthdate: req.body.birthdate,
+            locationLat: req.body.locationLat,
+            locationLng: req.body.locationLng,
+            rating: req.body.rating
+        }
+        let imgs = req.body.gallery
+        let tags = req.body.listOfInterests
+        msg = user.validateUpdateProfil(userData, imgs, tags)
+        if (msg.length)
+            return res.json({Status: "Failed", msg})
+        return res.json("hello")
         const set = user.updateUser(req.params.id)
 
         db.query(user.checkUser(req.params.id), (err, result) => {

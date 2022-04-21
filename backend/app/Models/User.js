@@ -132,7 +132,8 @@ class User {
                     msgs.push(`Picture number ${i + 1} is not valid`)
                 }
             }
-            msg.push({"Gallery": msgs})
+            if (msgs.length)
+                msg.push({"Gallery": msgs})
         }
         if (!tags.length || tags ==null)
             msg.push({"listOfInterests": "listOfInterests must not be empty"})
@@ -144,21 +145,105 @@ class User {
                 if (test == false)
                     msgs.push(`Tag number ${i + 1} must be an aphabet string`)
             }
-            msg.push({"listOfInterests": msgs})
+            if (msgs.length)
+                msg.push({"listOfInterests": msgs})
         }
         return msg
     }
-
-    validateImg(imgs, msg) {
-        for(let i = 0; i < imgs.length; i++) {
-            let img = Buffer.from(imgs[i].substr(23), 'base64')
-            try{
-                let dimension = sizeOf(img)
-            } catch(err) {
-                let key = "Picture number " + i
-                msg.push({ "Gallery":`Picture number ${i + 1} is not valid`})
-            }
+    
+    validateUpdateProfil (userData, imgs, tags) {
+        let msg = []
+        if (userData.firstName) {
+           let reg = patterns.name
+           let test = reg.test(userData.firstName)
+           if (test == false)
+            msg.push({"firstName": "Firsname must contain just alphabet"})
         }
+        if (userData.lastName) {
+            let reg = patterns.name
+            let test = reg.test(userData.lastName)
+            if (test == false)
+                msg.push({"lastName": "Lastname must contain just alphabet"})
+        }
+        if (userData.username) {
+            let reg = patterns.username
+            let test = reg.test(userData.username)
+            if (test == false)
+                msg.push({"Username": "username must be alphanumeric and contain 5 - 10 caracters"})
+        }
+        if (userData.email) {
+            let reg = patterns.email
+            let test = reg.test(userData.email)
+            if (test == false)
+                msg.push({"email": "Email must be a valid adress, example: me@mydomain.com"})
+        }
+        if (userData.gender) {
+           let reg = patterns.name
+           let test = reg.test(userData.gender)
+           if (test == false)
+            msg.push({"gender": " must contain just alphabet"})
+        }
+        if (userData.sexualPreference) {
+            let reg = patterns.name
+            let test = reg.test(userData.sexualPreference)
+            if (test == false)
+                msg.push({"sexualPreference": "sexualPreference must contain just alphabet"})
+        }
+        if (userData.biography) {
+            let reg = patterns.biography
+            let test = reg.test(userData.biography)
+            if (test == false)
+                msg.push({"biography": "biography must be alphanumeric"})
+        }
+        if (userData.birthdate) {
+            let reg = patterns.birthdate
+            let test = reg.test(userData.birthdate)
+            if (test == false)
+                msg.push({"birthdate": "birthdate must be a valid date, example: 11/05/2000"})
+        }
+        if (userData.locationLat) {
+            let reg = patterns.float
+            let test = reg.test(userData.locationLat)
+            if (test == false)
+                msg.push({"locationLat": "locationLat must be numeric, example: 32.88108"})
+        }
+        if (userData.locationLng) {
+            let reg = patterns.float
+            let test = reg.test(userData.locationLng)
+            if (test == false)
+                msg.push({"locationLng": "locationLng must be numeric, example: -6.9063"})
+        }
+        if (userData.rating) {
+            let reg = patterns.float
+            let test = reg.test(userData.rating)
+            if (test == false)
+                msg.push({"rating": "rating must be numeric, example: 3"})
+        }
+        if (imgs) {
+            let msgs = []
+            for (let i = 0; i < imgs.length; i++) {
+                let img = Buffer.from(imgs[i].substr(23), 'base64')
+                try {
+                    let dimension = sizeOf(img)
+                } catch(err) {
+                    msgs.push(`Picture number ${i + 1} is not valid`)
+                }
+            }
+            if (msgs.length)
+                msg.push({"Gallery": msgs})
+        }
+        if (tags) {
+            let msgs = []
+            for(let i = 0; i < tags.length; i++) {
+                let reg = patterns.name
+                let test = reg.test(tags[i])
+                if (test == false)
+                    msgs.push(`Tag number ${i + 1} must be an aphabet string`)
+            }
+            if (msgs.length)
+                msg.push({"listOfInterests": msgs})
+        }
+        return msg
     }
 
 
@@ -175,7 +260,7 @@ class User {
     selectUser(id) {
         return db1.promise().query('SELECT * FROM users WHERE id = ?', id)
     }
-
+    
     // getOther(id) {
     //     return db1.promise().query('SELECT * FROM users WHERE verified = 1 AND complete = 1 AND id != ?', id)
     // }
