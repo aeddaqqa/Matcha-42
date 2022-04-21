@@ -73,6 +73,8 @@ module.exports = {
     },
 
     complete: async (req, res) => {
+         if (!req.auth.data.verified)
+            return res.json("You need to verify your account")
         try {
             const userData = {
                 gender: req.body.gender,
