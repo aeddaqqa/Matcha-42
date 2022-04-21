@@ -85,7 +85,7 @@ module.exports = {
                 locationLng: req.body.locationLng,
                 rating: req.body.rating
             }
-            const id = req.auth.data[0].id
+            const id = req.auth.data.id
             const imgs = req.body.gallery
             const tags = req.body.listOfInterests
             msg = user.validateCompeteProfil(userData, imgs, tags)
@@ -130,7 +130,7 @@ module.exports = {
             locationLng: req.body.locationLng,
             rating: req.body.rating
         }
-        const id = req.auth.data[0].id
+        const id = req.auth.data.id
         let imgs = req.body.gallery
         let tags = req.body.listOfInterests
         msg = user.validateUpdateProfil(userData, imgs, tags)
