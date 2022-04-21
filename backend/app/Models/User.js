@@ -135,7 +135,7 @@ class User {
             if (msgs.length)
                 msg.push({"Gallery": msgs})
         }
-        if (!tags.length || tags ==null)
+        if (!tags)
             msg.push({"listOfInterests": "listOfInterests must not be empty"})
         else {
             let msgs = []
@@ -281,6 +281,11 @@ class User {
 
     addImage(id, name) {
         let sql = "INSERT INTO images SET name = ?, user_id = ?"
+        return db.promise().query(sql, [name, id])
+    }
+
+    updateImage(id, name) {
+        let sql = "UPDATE images SET name = ?, user_id = ?"
         return db.promise().query(sql, [name, id])
     }
 

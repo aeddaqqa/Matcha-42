@@ -12,7 +12,7 @@ module.exports = {
                 if (err)
                     res.sendStatus(401)
                 else{
-                    req.authUser = authData
+                    req.auth = authData
                     next()
                 }
             })

@@ -72,7 +72,7 @@ module.exports = {
         }
     },
 
-    complete:  async (req, res) => {
+    complete: async (req, res) => {
         try {
             const userData = {
                 gender: req.body.gender,
@@ -83,25 +83,26 @@ module.exports = {
                 locationLng: req.body.locationLng,
                 rating: req.body.rating
             }
+            const id = req.auth.data[0].id
             const imgs = req.body.gallery
             const tags = req.body.listOfInterests
             msg = user.validateCompeteProfil(userData, imgs, tags)
             if (msg.length)
                 return res.json({Status: "Failed", msg})
-            const [result] = await user.checkUser(req.params.id)
+            const [result] = await user.checkUser(id)
             if (result[0].verified)
                 return res.json("You need to verify your account.")
 
             userData["complete"] = 1
             if (result[0].complete == 0) {
-                const [result1] = await user.updateUser(req.params.id, userData)
+                const [result1] = await user.updateUser(id, userData)
                 user.putImgToFolder(imgs)
                 let result2 = []
                 for (let i = 0; i < imgs.length; i++)
-                    [result2] = await user.addImage(req.params.id, imgs[i])
+                    [result2] = await user.addImage(id, imgs[i])
                 let result3 = []
                 for (let i = 0; i < tags.length; i++)
-                    [result3] = await user.addTags(req.params.id, tags[i])
+                    [result3] = await user.addTags(id, tags[i])
                 return res.json({Status: "Success", Msg: "User profile has been completed."})
             }
              else
@@ -112,7 +113,7 @@ module.exports = {
 
     },
 
-    update: (req, res) => {
+    update: async (req, res) => {
         const userData = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -127,45 +128,25 @@ module.exports = {
             locationLng: req.body.locationLng,
             rating: req.body.rating
         }
+        const id = req.auth.data[0].id
         let imgs = req.body.gallery
         let tags = req.body.listOfInterests
         msg = user.validateUpdateProfil(userData, imgs, tags)
         if (msg.length)
             return res.json({Status: "Failed", msg})
-        return res.json("hello")
-        const set = user.updateUser(req.params.id)
-
-        db.query(user.checkUser(req.params.id), (err, result) => {
-            if (err)
-                return res.status(500).send(err)
-            else
-                if (result.length == 1) {
-
-                    db.query(set, userData, (err, result) => {
-                        if (err)
-                            return res.status(500).send(err)
-                    })
-                    if (imgs.length > 0)
-                        user.putImgToFolder(imgs)
-                    for (let i = 0; i < imgs.length; i++) {
-                        db.query(user.addImage(req.params.id), imgs[i], (err, result) => {
-                            if (err)
-                                return res.status(500).send(err)
-                        })
-                    }
-                                
-                    for (let i = 0; i < tags.length; i++) {
-                        db.query(user.addTags(req.params.id), tags[i], (err, result) => {
-                            if (err)
-                                return res.status(500).send(err)
-                        })
-                    }
-
-                    return res.json({Status: "Success", Msg: "User profile has been updated."})
-                }
-                else
-                    return res.json({Status: "Failed", Msg:"User doesn't exist."})
+        Object.keys(userData).forEach(key => {
+            if (userData[key] === undefined) {
+                delete userData[key];
+            }
         })
+        try {
+            console.log(userData)
+            if (userData) {
+                let [result] = await user.updateUser(req.params.id, userData)
+            }
+        } catch(err) {
+            console.log(err)
+        }
     },
 
 

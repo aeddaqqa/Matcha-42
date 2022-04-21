@@ -1,11 +1,13 @@
 const express = require('express')
 const router = express.Router()
+const verifyToken = require('../app/middlewares/verifyToken')
 const userController = require('../app/Controllers/userController')
 const authController = require('../app/Controllers/authController')
 const likesController = require('../app/Controllers/likesController')
 const browseController = require('../app/Controllers/browseController')
 const messageController = require('../app/Controllers/messageController')
 const friendController = require('../app/Controllers/friendController')
+
 
 
 /* -------------------- Sign up and sign in ----------------------------*/
@@ -18,8 +20,8 @@ router.get('/resetpassword', authController.resetPassword)
 
 /* ----------------------------- End  -----------------------------------*/
 
-router.post('/user/complete/:id', userController.complete)
-router.post('/user/update/:id', userController.update)
+router.post('/user/complete', verifyToken.verifyToken, userController.complete)
+router.post('/user/update', userController.update)
 router.get('/user/tags/:search', userController.getTags)
 router.get('/user/:id', userController.UserSelect)
 router.post('/user/like', likesController.store)

@@ -28,13 +28,13 @@ module.exports = {
                         return res.send({Status: "Failed", Msg: "Wrong password."})
                     else
                     {
-                        dataUser = [
+                        data = [
                             {
-                                "Id" : result[0].id,
-                                "Email" : result[0].email
+                                "id" : result[0].id,
+                                "email" : result[0].email
                             }
                         ]
-                        jwt.sign({ dataUser }, 'hello', (err, token) => {
+                        jwt.sign({ data }, 'hello', (err, token) => {
                             res.json({token})
                         })
                     }
