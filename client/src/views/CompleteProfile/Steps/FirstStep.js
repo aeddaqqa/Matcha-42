@@ -75,7 +75,7 @@ const FirstStep = () => {
     return (
         <StyledFirstStep>
             <div className="content--userinfo">
-                <div className="content--userinfo__name">
+                {/* <div className="content--userinfo__name">
                     <TextField
                         value={firstName}
                         onChange={(e) => {
@@ -100,7 +100,7 @@ const FirstStep = () => {
                         label="Last Name"
                         variant="standard"
                     />
-                </div>
+                </div> */}
                 <div className="content--userinfo__dateandgender">
                     <div className="gender">
                         <div className="lab">Gender</div>

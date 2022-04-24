@@ -73,6 +73,20 @@ const Register = ({ setLog }) => {
             <FormStyle className="form-register" onSubmit={handleSubmit}>
                 <TextFieldStyled
                     className="input-register"
+                    label="First Name"
+                    variant="outlined"
+                    name="firstName"
+                    onChange={handleChange}
+                />
+                <TextFieldStyled
+                    className="input-register"
+                    label="Last Name"
+                    variant="outlined"
+                    name="lastName"
+                    onChange={handleChange}
+                />
+                <TextFieldStyled
+                    className="input-register"
                     label="username"
                     variant="outlined"
                     name="username"
