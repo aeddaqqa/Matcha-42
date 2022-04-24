@@ -6,6 +6,7 @@ import ComfirmAccount from "../../views/CompleteProfile/VerifyEmail";
 import NewPassword from "../../views/Home/NewPassword";
 import CompleteProfile from "../../views/CompleteProfile";
 import NavBar from "../NavBar/NavBar";
+import Browsing from "../../views/Browsing/Browsing";
 
 const Router = () => {
     return (
@@ -16,6 +17,7 @@ const Router = () => {
                 <Route path="/validateAccount" element={<ComfirmAccount />} />
                 <Route path="/ForgetPassword" element={<NewPassword />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/browsing" element={<Browsing />} />
                 <Route path="/completeProfile" element={<CompleteProfile />} />
                 <Route path="/newpassword" element={<NewPassword />} />
                 <Route path="*" element={<Home />} />

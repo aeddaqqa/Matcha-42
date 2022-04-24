@@ -35,7 +35,14 @@ const Content = () => {
     return (
         <ContentBrowsingStyle>
             <Card />
-            <Swiper
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            {/* <Swiper
                 effect={"cards"}
                 grabCursor={true}
                 onSlideChange={(swiper) => {
@@ -81,7 +88,7 @@ const Content = () => {
                 <div className="icon-item dislike">
                     <IoIosHeartDislike />
                 </div>
-            </div>
+            </div> */}
         </ContentBrowsingStyle>
     );
 };

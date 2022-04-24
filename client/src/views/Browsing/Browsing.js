@@ -4,7 +4,7 @@ import Content from "./Content";
 const Browsing = () => {
     return (
         <BrowsingContainer>
-            <LeftSide />
+            {/* <LeftSide /> */}
             <Content />
         </BrowsingContainer>
     );

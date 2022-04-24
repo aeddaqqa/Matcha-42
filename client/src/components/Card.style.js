@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const CardStyle = styled.div`
     /* background-color: tomato; */
     position: relative;
-    width: 500px;
-    height: 800px;
+    width: 300px;
+    height: 500px;
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.5) 0px 4px 12px;
     /* background-image: linear-gradient(

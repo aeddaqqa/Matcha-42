@@ -3,11 +3,14 @@ export const BrowsingContainer = styled.div`
     /* background-color: red;
     NEED MORE STYLES */
     width: 100%;
-    height: 100%;
+    min-height: auto;
+    padding-top: 100px;
     display: flex;
+    align-items: center;
+    justify-content: center;
     /* position: relative; */
-    flex-flow: row nowrap;
-    background-image: ${(props) => props.theme.background.secondary};
+    /* flex-flow: row nowrap; */
+    /* background-image: ${(props) => props.theme.background.secondary}; */
 `;
 
 export const LeftSideStyle = styled.div`
@@ -17,12 +20,16 @@ export const LeftSideStyle = styled.div`
 `;
 
 export const ContentBrowsingStyle = styled.div`
-    flex: 0 0 80%;
+    /* flex: 0 0 80%; */
+    width: 60%;
+    height: 100%;
     min-width: 300px;
     display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
+    /* flex-flow: column nowrap; */
+    /* align-items: center; */
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
     .swiper {
         width: 500px;
         /* min-width: 500px; */
