@@ -14,7 +14,7 @@ const Router = () => {
             {/* <NavBar /> */}
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/validateAccount" element={<ComfirmAccount />} />
+                <Route path="/verifyProfil" element={<ComfirmAccount />} />
                 <Route path="/ForgetPassword" element={<NewPassword />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/browsing" element={<Browsing />} />

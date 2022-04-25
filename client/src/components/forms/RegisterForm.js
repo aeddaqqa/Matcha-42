@@ -15,7 +15,13 @@ const Register = ({ setLog }) => {
     const MySwal = withReactContent(Swal);
     const register = () => {
         dispatch(
-            userRegisterAction(values.username, values.email, values.password)
+            userRegisterAction(
+                values.firstName,
+                values.firstName,
+                values.username,
+                values.email,
+                values.password
+            )
         );
     };
     const data = useSelector((state) => state.userRegister);
