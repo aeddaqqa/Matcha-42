@@ -105,7 +105,7 @@ module.exports = {
                 let result3 = []
                 for (let i = 0; i < tags.length; i++)
                     [result3] = await user.addTags(id, tags[i])
-                return res.json({Status: "Success", Msg: "User profile has been completed."})
+                return res.status(200).json({Status: "Success", Msg: "User profile has been completed."})
             }
              else
                  return res.json({Status: "Failed", Msg:"Profile already completed"})
