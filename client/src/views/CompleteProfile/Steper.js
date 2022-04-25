@@ -47,8 +47,7 @@ const validateFirstStep = (state) => {
         biography,
         tags
     );
-    if (firstName && lastName) return 1;
-    return 0;
+    return 1;
 };
 const validateSecondStep = (state) => {
     const { gallery } = state;
@@ -78,7 +77,7 @@ const Steper = () => {
     const steps = getSteps();
     const state = useSelector((state) => state);
     const completeProfile = state.completeProfile;
-    const token = state?.userLogin?.user.token;
+    const token = state?.userLogin?.user.data.token;
     // useEffect(() => {
     //     console.log(token);
     // }, [state]);
@@ -90,18 +89,17 @@ const Steper = () => {
         else if (activeStep === 2) {
             axios
                 .post(
-                    "http://localhost:1337/user/completeProfile",
+                    "http://localhost:3000/api/user/complete",
                     {
-                        location: completeProfile.location,
+                        locationLat: completeProfile.location.lat,
+                        locationLng: completeProfile.location.lng,
                         sexualPreferences: completeProfile.sexualPreferences,
-                        firstName: completeProfile.firstName,
-                        lastName: completeProfile.lastName,
                         gender: completeProfile.gender,
                         biography: completeProfile.biography,
                         birthdate: completeProfile.birthdate,
-                        listOfInterests: [{ tag: "bigola" }],
+                        listOfInterests: ["sport"],
+                        rating: 3,
                         gallery: completeProfile.gallery,
-                        avatar: completeProfile.profilePicture,
                         // id: token,
                     },
                     {

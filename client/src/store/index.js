@@ -8,7 +8,7 @@ const userFromLocalStorage = localStorage.getItem("user")
     : {};
 
 const initialState = {
-    userLogin: { user: userFromLocalStorage },
+    userLogin: { user: { data: userFromLocalStorage } },
     userRegister: {},
 };
 

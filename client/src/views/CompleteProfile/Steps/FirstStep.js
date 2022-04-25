@@ -35,32 +35,24 @@ const FirstStep = () => {
         sexualPreferences: sexualPreferences,
         listOfInterests: listOfInterests,
     } = state.completeProfile;
-    let token = state.userLogin.user.token;
-    // useEffect(() => {
-    //     // token = state.userLogin.user?.token;
-    //     console.log(state.userLogin?.token);
-    // }, [state]);
+    let token = state.userLogin.user.data.token;
+
     const [value, setValue] = useState("");
     const [options, setOptions] = useState([]);
     const onSearch = (searchText) => {
-        console.log(token);
+        // console.log(token);
         if (token && searchText)
             axios
-                .post(
-                    "http://localhost:1337/user/getsearchtag",
-                    {
-                        tag: searchText,
+                .get(`http://localhost:3000/api/user/tags/${searchText}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
                     },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                )
+                })
                 .then((res) => {
                     console.log(res.data.result);
                     setOptions(res.data.result);
-                });
+                })
+                .catch((err) => console.log(err));
     };
     const onSelect = (data) => {
         dispatch({
@@ -75,32 +67,6 @@ const FirstStep = () => {
     return (
         <StyledFirstStep>
             <div className="content--userinfo">
-                {/* <div className="content--userinfo__name">
-                    <TextField
-                        value={firstName}
-                        onChange={(e) => {
-                            dispatch({
-                                type: CompleteProfileActionTypes.firstName,
-                                firstName: e.target.value,
-                            });
-                        }}
-                        className="name"
-                        label="First Name"
-                        variant="standard"
-                    />
-                    <TextField
-                        onChange={(e) => {
-                            dispatch({
-                                type: CompleteProfileActionTypes.lastName,
-                                lastName: e.target.value,
-                            });
-                        }}
-                        value={lastName}
-                        className="name"
-                        label="Last Name"
-                        variant="standard"
-                    />
-                </div> */}
                 <div className="content--userinfo__dateandgender">
                     <div className="gender">
                         <div className="lab">Gender</div>
