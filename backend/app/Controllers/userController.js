@@ -73,6 +73,7 @@ module.exports = {
     },
 
     complete: async (req, res) => {
+        console.log(req.auth)
          if (!req.auth.data.verified)
             return res.json("You need to verify your account")
         try {
@@ -92,8 +93,7 @@ module.exports = {
             if (msg.length)
                 return res.json({Status: "Failed", msg})
             const [result] = await user.checkUser(id)
-            if (result[0].verified)
-                return res.json("You need to verify your account.")
+
 
             userData["complete"] = 1
             if (result[0].complete == 0) {
@@ -190,7 +190,7 @@ module.exports = {
         db.query(sql, search, (err, result) => {
             if (err)
                 return res.send(err)
-            return res.json(result)
+            return res.status.json(result)
         })
     },
 }

@@ -37,7 +37,6 @@ module.exports = {
                             res.status(200).json({
                                 token,
                                 "verified": result[0].verified,
-                                "verified": result[0].verified,
                                 "complete": result[0].complete
                             })
                         })
