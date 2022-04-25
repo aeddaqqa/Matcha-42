@@ -41,7 +41,7 @@ module.exports = {
                 userData.token = token
                 let [result2] = await user.addUser(userData)
                 if (result2.affectedRows) {
-                    const url = "http://localhost:3001/verifyProfil" + token
+                    const url = "http://localhost:3001/verifyProfil/token=" + token
                     const transporter = nodemailer.createTransport({
                         service: 'gmail',
                         host: "smtp.gmail.com",
