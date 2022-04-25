@@ -41,7 +41,7 @@ module.exports = {
                 userData.token = token
                 let [result2] = await user.addUser(userData)
                 if (result2.affectedRows) {
-                    const url = "http://localhost:3000/" + token
+                    const url = "http://localhost:3001/verifyProfil" + token
                     const transporter = nodemailer.createTransport({
                         service: 'gmail',
                         host: "smtp.gmail.com",
@@ -62,7 +62,7 @@ module.exports = {
                         if (err) {
                             console.log(err)
                         } else {
-                            res.json("Email verification has been send to your email")
+                            res.status.json("Email verification has been send to your email")
                         }
                     })
                 }
