@@ -15,6 +15,7 @@ import {
 } from "./Profile.style";
 import jwt_decode from "jwt-decode";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const images = [
     {
@@ -75,12 +76,18 @@ const tabs = [
 ];
 
 const Profile = () => {
-    const state = useSelector((state) => state.userLogin?.user?.data?.token);
+    let token = useSelector((state) => state.userLogin?.user?.data?.token);
     useEffect(() => {
-        // const decoded = jwt_decode(state);
-        console.log(state);
-        // console.log(decoded);
-    }, [state]);
+        console.log(token);
+        if (token)
+            axios
+                .get("http://localhost:3000/api/user/profile", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((res) => console.log(res));
+    }, [token]);
     const [selectedTab, setSelectedTab] = useState(0);
     return (
         <>
