@@ -34,7 +34,12 @@ module.exports = {
                                 "verified": result[0].verified
                             }
                         jwt.sign({ data }, 'hello', (err, token) => {
-                            res.json({token})
+                            res.json({
+                                token,
+                                "verified": result[0].verified,
+                                "verified": result[0].verified,
+                                "complete": result[0].complete
+                            })
                         })
                     }
                 })
@@ -59,7 +64,7 @@ module.exports = {
             db.query(sql, (err, result) => {
                 if(err)
                     return res.send(err)
-                res.json("your profil had been verified")
+                res.status(200).json("your profil had been verified")
             })
         })
     },
@@ -85,7 +90,7 @@ module.exports = {
                 })
             })
             const token = randomstring.generate(20)
-            const url = "http://localhost:3000/resetpassword/" + token
+            const url = "http://localhost:3001/resetpassword/" + token
             const transporter = nodemailer.createTransport({
             service: 'gmail',
             host: "smtp.gmail.com",
