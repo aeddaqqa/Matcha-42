@@ -62,7 +62,7 @@ module.exports = {
                         if (err) {
                             console.log(err)
                         } else {
-                            res.status.json("Email verification has been send to your email")
+                            res.status(200).json("Email verification has been send to your email")
                         }
                     })
                 }
