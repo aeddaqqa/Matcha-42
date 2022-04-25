@@ -16,7 +16,7 @@ module.exports = {
             else
             {
                 if (result.length == 0)
-                    res.status(400).json({ErrorMessage: "Wrong Email !!!"})
+                    res.status(400).json({ErrorMessage: "Wrong username !!!"})
                 else
                 {
                 userPassword = result[0].password
