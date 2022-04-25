@@ -9,6 +9,10 @@ const user = require('./routes/routes')
 const bodyParser = require('body-parser')
 const verifyToken = require('./app/middlewares/verifyToken')
 const fs = require('fs')
+var cors = require('cors')
+
+app.use(cors())
+
 
 const port = process.env.PORT || 3000
 
