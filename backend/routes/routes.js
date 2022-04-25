@@ -23,7 +23,7 @@ router.get('/resetpassword', authController.resetPassword)
 router.post('/user/complete', verifyToken.verifyToken, userController.complete)
 router.post('/user/update', userController.update)
 router.get('/user/tags/:search', verifyToken.verifyToken, userController.getTags)
-router.get('/user/:id', userController.UserSelect)
+router.get('/user/profile', verifyToken.verifyToken, userController.profile)
 router.post('/user/like', likesController.store)
 router.post('/user/msg/store', messageController.store)
 

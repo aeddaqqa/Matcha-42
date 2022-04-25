@@ -4,6 +4,7 @@ const nodemailer = require("nodemailer")
 const bcrypt = require('bcrypt')
 const salt = 10
 const user = new User()
+const db = require("../../database/db_connection")
 
 module.exports = {
     signup: async (req, res) => {
@@ -73,7 +74,6 @@ module.exports = {
     },
 
     complete: async (req, res) => {
-        console.log(req.auth)
          if (!req.auth.data.verified)
             return res.json("You need to verify your account")
         try {
@@ -152,8 +152,8 @@ module.exports = {
     },
 
 
-    UserSelect: (req, res) => {
-       id = req.params.id
+    profile: (req, res) => {
+       id = req.auth.data.id
         sql = "SELECT * From users WHERE id = ?"
         db.query(sql, id, (err, result) => {
             if (err)
