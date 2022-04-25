@@ -34,7 +34,7 @@ module.exports = {
                                 "verified": result[0].verified
                             }
                         jwt.sign({ data }, 'hello', (err, token) => {
-                            res.json({
+                            res.status(200).json({
                                 token,
                                 "verified": result[0].verified,
                                 "verified": result[0].verified,
