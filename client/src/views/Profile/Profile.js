@@ -75,11 +75,11 @@ const tabs = [
 ];
 
 const Profile = () => {
-    const state = useSelector((state) => state.userLogin.user.token);
+    const state = useSelector((state) => state.userLogin?.user?.data?.token);
     useEffect(() => {
-        const decoded = jwt_decode(state);
+        // const decoded = jwt_decode(state);
         console.log(state);
-        console.log(decoded);
+        // console.log(decoded);
     }, [state]);
     const [selectedTab, setSelectedTab] = useState(0);
     return (
