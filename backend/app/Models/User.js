@@ -119,22 +119,22 @@ class User {
             if (test == false)
                 msg.push({"rating": "rating must be numeric, example: 3"})
         }
-        // if (!imgs.length)
-        //     msg.push({"Gallery":"Gallery must not be empty"})
-        // else {
-        //     let msgs = []
-        //     for(let i = 0; i < imgs.length; i++) {
-        //         let img = Buffer.from(imgs[i].substr(23), 'base64')
-        //         try{
-        //             let dimension = sizeOf(img)
-        //         } catch(err) {
-        //             let key = "Picture number " + i
-        //             msgs.push(`Picture number ${i + 1} is not valid`)
-        //         }
-        //     }
-        //     if (msgs.length)
-        //         msg.push({"Gallery": msgs})
-        // }
+        if (!imgs.length)
+            msg.push({"Gallery":"Gallery must not be empty"})
+        else {
+            let msgs = []
+            for(let i = 0; i < imgs.length; i++) {
+                let img = Buffer.from(imgs[i].substr(23), 'base64')
+                try{
+                    let dimension = sizeOf(img)
+                } catch(err) {
+                    let key = "Picture number " + i
+                    msgs.push(`Picture number ${i + 1} is not valid`)
+                }
+            }
+            if (msgs.length)
+                msg.push({"Gallery": msgs})
+        }
         if (!tags)
             msg.push({"listOfInterests": "listOfInterests must not be empty"})
         else {
