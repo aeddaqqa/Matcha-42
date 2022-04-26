@@ -54,10 +54,12 @@ const Login = (props) => {
 
     useEffect(() => {
         if (user) {
-            if (user.status === 200 && !user.complete)
+            if (user.status === 200 && !user.data.complete)
                 navigate("/completeProfile");
-            else if (user.status === 200 && user.complete) navigate("/profile");
+            else if (user.status === 200 && user.data.complete)
+                navigate("/profile");
         }
+        console.log(user);
     }, [userLogin]);
     useEffect(() => {
         if (error) {

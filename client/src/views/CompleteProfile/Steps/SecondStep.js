@@ -40,7 +40,6 @@ const SecondStep = () => {
                 }
             }
         };
-
         setClear("");
     };
     return (

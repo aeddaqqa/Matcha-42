@@ -108,8 +108,23 @@ const Steper = () => {
                         },
                     }
                 )
-                .then((res) => navigate("/profile"))
+                .then((res) => {
+                    console.log(res);
+                    // navigate("/profile");
+                })
                 .catch((err) => console.log(err.response));
+            console.log({
+                locationLat: completeProfile.location.lat,
+                locationLng: completeProfile.location.lng,
+                sexualPreferences: completeProfile.sexualPreferences,
+                gender: completeProfile.gender,
+                biography: completeProfile.biography,
+                birthdate: completeProfile.birthdate,
+                listOfInterests: ["sport"],
+                rating: 3,
+                gallery: completeProfile.gallery,
+                // id: token,
+            });
             console.log("submit data");
         }
     };
