@@ -93,10 +93,10 @@ const Steper = () => {
                     {
                         locationLat: completeProfile.location.lat,
                         locationLng: completeProfile.location.lng,
-                        sexualPreferences: completeProfile.sexualPreferences,
+                        sexualPreference: completeProfile.sexualPreferences,
                         gender: completeProfile.gender,
                         biography: completeProfile.biography,
-                        birthdate: completeProfile.birthdate,
+                        birthdate: "11/05/2000",
                         listOfInterests: ["sport"],
                         rating: 3,
                         gallery: completeProfile.gallery,

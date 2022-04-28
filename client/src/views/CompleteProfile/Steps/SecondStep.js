@@ -19,18 +19,7 @@ const SecondStep = () => {
                 console.log(e.currentTarget.result);
                 dispatch({
                     type: CompleteProfileActionTypes.gallery,
-                    gallery: [
-                        ...gallery,
-                        gallery.length == 0
-                            ? {
-                                  isProfilePicture: true,
-                                  url: e.currentTarget.result,
-                              }
-                            : {
-                                  isProfilePicture: false,
-                                  url: e.currentTarget.result,
-                              },
-                    ],
+                    gallery: [...gallery, e.currentTarget.result],
                 });
                 if (gallery.length == 0) {
                     dispatch({
@@ -69,37 +58,20 @@ const SecondStep = () => {
                             <div
                                 className="galerie--image"
                                 style={{
-                                    backgroundImage: `url("${item.url}")`,
+                                    backgroundImage: `url("${item}")`,
                                 }}
                             />
                             <div className="galerie--image__footer">
                                 {!item.isProfilePicture && (
                                     <p
                                         onClick={() => {
-                                            gallery.forEach((item, id) => {
-                                                if (
-                                                    gallery[id]
-                                                        .isProfilePicture &&
-                                                    index !== id
-                                                ) {
-                                                    gallery[
-                                                        id
-                                                    ].isProfilePicture = false;
-                                                }
-                                                if (index === id) {
-                                                    gallery[
-                                                        id
-                                                    ].isProfilePicture = true;
-                                                }
-                                            });
                                             dispatch({
                                                 type: CompleteProfileActionTypes.gallery,
                                                 gallery: [...gallery],
                                             });
                                             dispatch({
                                                 type: CompleteProfileActionTypes.profilePicture,
-                                                profilePicture:
-                                                    gallery[index].url,
+                                                profilePicture: gallery[0],
                                             });
                                         }}
                                     >
@@ -108,7 +80,7 @@ const SecondStep = () => {
                                 )}
                                 <p
                                     onClick={() => {
-                                        let url = gallery[index].url;
+                                        let url = gallery[index];
                                         gallery.splice(index, 1);
                                         if (profilePicture === url) {
                                             dispatch({
@@ -118,10 +90,8 @@ const SecondStep = () => {
                                             if (gallery.length > 0) {
                                                 dispatch({
                                                     type: CompleteProfileActionTypes.profilePicture,
-                                                    profilePicture:
-                                                        gallery[0].url,
+                                                    profilePicture: gallery[0],
                                                 });
-                                                gallery[0].isProfilePicture = true;
                                             }
                                         }
                                         dispatch({
