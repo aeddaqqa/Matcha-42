@@ -62,9 +62,12 @@ const SecondStep = () => {
                                 }}
                             />
                             <div className="galerie--image__footer">
-                                {!item.isProfilePicture && (
+                                {index !== 0 && (
                                     <p
                                         onClick={() => {
+                                            let tmp = gallery[0];
+                                            gallery[0] = gallery[index];
+                                            gallery[index] = tmp;
                                             dispatch({
                                                 type: CompleteProfileActionTypes.gallery,
                                                 gallery: [...gallery],
