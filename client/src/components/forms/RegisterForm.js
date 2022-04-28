@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userRegisterAction } from "../../store/actions/userActions";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { Rings } from "react-loader-spinner";
 const Register = ({ setLog }) => {
     const dispatch = useDispatch();
     const MySwal = withReactContent(Swal);
@@ -25,32 +26,27 @@ const Register = ({ setLog }) => {
         );
     };
     const data = useSelector((state) => state.userRegister);
+    const { loading, error, user } = data;
 
     useEffect(() => {
-        if (data && data.user && data.user.status === "success") {
+        if (user) {
             MySwal.fire(
                 "Good job!",
-                "you need to verify your email first and then login",
+                "Email verification has been send to your email",
                 "success"
             ).then(() => {
-                setLog(true);
                 dispatch({ type: "USER_REGISTER_CLEAR" });
+                setLog(true);
             });
         }
-        if (data.error) {
-            if (
-                data.error.status === 400 &&
-                data.error.message === "username OR email deja exist !"
-            ) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: data.error.message,
-                }).then(() => {
-                    setLog(true);
-                    dispatch({ type: "USER_REGISTER_CLEAR" });
-                });
-            }
+        if (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "irooooora",
+            }).then(() => {
+                dispatch({ type: "USER_REGISTER_CLEAR" });
+            });
         }
     }, [data]);
 
@@ -83,6 +79,7 @@ const Register = ({ setLog }) => {
                     variant="outlined"
                     name="firstName"
                     onChange={handleChange}
+                    // helperText={}
                 />
                 <TextFieldStyled
                     className="input-register"
@@ -161,7 +158,11 @@ const Register = ({ setLog }) => {
                         ),
                     }}
                 />
-                <input type="submit" value="Register" className="submit" />
+                {loading ? (
+                    <Rings ariaLabel="loading-indicator" color="red" />
+                ) : (
+                    <input type="submit" value="Register" className="submit" />
+                )}
             </FormStyle>
             <SwitchToLogin
                 onClick={() => {

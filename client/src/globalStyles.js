@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   *,
@@ -33,6 +33,9 @@ const GlobalStyle = createGlobalStyle`
         max-width: 450px;
         width: 100% !important;
     }
+    }
+    p {
+      margin : 0;
     }
 `;
 export default GlobalStyle;

@@ -9,6 +9,8 @@ export const userLoginReducer = (state = {}, action) => {
             return { loading: false, error: action.payload };
         case loginActionTypes.USER_LOGOUT:
             return {};
+        case loginActionTypes.USER_LOGIN_CLEAR:
+            return { error: null };
         default:
             return state;
     }

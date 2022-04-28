@@ -54,16 +54,21 @@ const Login = (props) => {
 
     useEffect(() => {
         if (user) {
-            if (user.status === 200 && !user.data.complete)
-                navigate("/completeProfile");
-            else if (user.status === 200 && user.data.complete)
-                navigate("/profile");
+            if (user?.complete === 0) navigate("/completeProfile");
+            else if (user?.complete) navigate("/profile");
         }
-        console.log(user);
+        console.log(user?.complete);
     }, [userLogin]);
     useEffect(() => {
         if (error) {
-            console.log(error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: error.ErrorMessage,
+            }).then(() => {
+                // setLog(true);
+                dispatch({ type: "USER_LOGIN_CLEAR" });
+            });
         }
     }, [error]);
     return (
@@ -79,6 +84,7 @@ const Login = (props) => {
                     name="username"
                     onChange={handleChange}
                     error={error ? true : false}
+                    // helperText="Incorrect entry."
                 />
                 <TextFieldStyled
                     error={error ? true : false}

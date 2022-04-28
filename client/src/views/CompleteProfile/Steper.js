@@ -77,7 +77,7 @@ const Steper = () => {
     const steps = getSteps();
     const state = useSelector((state) => state);
     const completeProfile = state.completeProfile;
-    const token = state?.userLogin?.user.data.token;
+    const token = state?.userLogin?.user.token;
     // useEffect(() => {
     //     console.log(token);
     // }, [state]);
@@ -109,8 +109,12 @@ const Steper = () => {
                     }
                 )
                 .then((res) => {
+                    if (
+                        res.data.Status == "Success" ||
+                        res.data.Msg == "Profile already completed"
+                    )
+                        navigate("/profile");
                     console.log(res);
-                    // navigate("/profile");
                 })
                 .catch((err) => console.log(err.response));
             console.log({
@@ -123,9 +127,7 @@ const Steper = () => {
                 listOfInterests: ["sport"],
                 rating: 3,
                 gallery: completeProfile.gallery,
-                // id: token,
             });
-            console.log("submit data");
         }
     };
 

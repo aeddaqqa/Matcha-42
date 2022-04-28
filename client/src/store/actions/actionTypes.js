@@ -3,6 +3,7 @@ export const loginActionTypes = {
     USER_LOGIN_SUCCESS: "USER_LOGIN_SUCCESS",
     USER_LOGIN_FAIL: "USER_LOGIN_FAIL",
     USER_LOGOUT: "USER_LOGOUT",
+    USER_LOGIN_CLEAR: "USER_LOGIN_CLEAR",
 };
 
 export const registerActionTypes = {

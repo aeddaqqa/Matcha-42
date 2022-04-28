@@ -11,7 +11,7 @@ export const userLoginAction = (username, password) => async (dispatch) => {
         localStorage.setItem("user", JSON.stringify(data.data));
         dispatch({
             type: loginActionTypes.USER_LOGIN_SUCCESS,
-            payload: data,
+            payload: data.data,
         });
     } catch (error) {
         dispatch({
@@ -32,11 +32,17 @@ export const userRegisterAction =
                 email,
                 password,
             });
-            console.log(data);
-            dispatch({
-                type: registerActionTypes.USER_REGISTER_SUCCESS,
-                payload: data?.data,
-            });
+            if (data.data.Status !== "Failed")
+                dispatch({
+                    type: registerActionTypes.USER_REGISTER_SUCCESS,
+                    payload: data?.data,
+                });
+            else {
+                dispatch({
+                    type: registerActionTypes.USER_REGISTER_FAIL,
+                    payload: data.data.msg,
+                });
+            }
             // check fot data error
         } catch (error) {
             dispatch({
