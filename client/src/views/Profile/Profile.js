@@ -76,9 +76,9 @@ const tabs = [
 ];
 
 const Profile = () => {
-    let token = useSelector((state) => state.userLogin?.user?.data?.token);
+    let token = useSelector((state) => state.userLogin?.user?.token);
     useEffect(() => {
-        console.log(pikala);
+        console.log(token)
         if (token)
             axios
                 .get("http://localhost:3000/api/user/profile", {
