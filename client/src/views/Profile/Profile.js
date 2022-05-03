@@ -76,7 +76,7 @@ const tabs = [
 ];
 
 const Profile = () => {
-    let token = useSelector((state) => state.userLogin?.user?.data?.token);
+    let token = useSelector((state) => state.userLogin?.user?.token);
     useEffect(() => {
         console.log(token);
         if (token)
