@@ -4,7 +4,11 @@ const like = new Like()
 module.exports = {
     store: async (req, res) => {
         try {
-            const likeData = req.body
+            const likeData = {
+                user_id1: req.auth.data.id,
+                user_id2: req.body.user_id,
+                state: req.body.state
+            }
             const [result] = await like.check(likeData)
             if (result.length > 0)
                 res.json("You are already sent a like to this account")

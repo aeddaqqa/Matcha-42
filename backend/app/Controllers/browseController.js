@@ -64,7 +64,7 @@ module.exports = {
                     if (d == 0)
                         finalData.push(users[i])
                 }
-                return res.json(finalData)
+                return res.json(users)
             }
         } catch(err) {
             console.log(err)

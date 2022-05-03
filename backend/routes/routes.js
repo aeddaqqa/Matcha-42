@@ -24,16 +24,16 @@ router.post('/user/complete', verifyToken.verifyToken, userController.complete)
 router.post('/user/update', userController.update)
 router.get('/user/tags/:search', verifyToken.verifyToken, userController.getTags)
 router.get('/user/profile', verifyToken.verifyToken, userController.profile)
-router.post('/user/like', likesController.store)
-router.post('/user/msg/store', messageController.store)
+router.post('/user/like', verifyToken.verifyToken, likesController.store)
+router.post('/user/msg/store', verifyToken.verifyToken, messageController.store)
 
-router.get('/user/like/get1/:id', likesController.get1)
-router.get('/user/like/get2/:id', likesController.get2)
+router.get('/user/like/get1/:id', verifyToken.verifyToken, likesController.get1)
+router.get('/user/like/get2/:id', verifyToken.verifyToken, likesController.get2)
 router.get('/user/like/delete/:user_id1/:user_id2', likesController.delete)
-router.get('/user/browse/get', browseController.get)
-router.get('/user/msg/get', messageController.get)
+router.get('/user/browse', verifyToken.verifyToken, browseController.get)
+router.get('/user/msg/get', verifyToken.verifyToken, messageController.get)
 
-router.get('/user/friend/get/:id', friendController.get)
+router.get('/user/friend/get/:id', verifyToken.verifyToken, friendController.get)
 
 
 module.exports = router
