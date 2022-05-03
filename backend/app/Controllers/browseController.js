@@ -7,7 +7,7 @@ const like = new Like()
 
 module.exports = {
     get: async (req, res) => {
-        const id = req.params.id
+        const id = req.auth.data.id
         try {
             const [rows] = await user.getTags(id)
             const [rows2] = await browse.get_id_of_who_I_like(id)

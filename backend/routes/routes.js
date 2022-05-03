@@ -16,7 +16,7 @@ router.post('/signup', userController.signup)
 router.post('/login', authController.login)
 router.post('/user/verifyEmail', authController.verifyEmail)
 router.post('/forgotpassword', authController.forgotPassword)
-router.get('/resetpassword', authController.resetPassword)
+router.post('/resetpassword', authController.resetPassword)
 
 /* ----------------------------- End  -----------------------------------*/
 
@@ -30,7 +30,7 @@ router.post('/user/msg/store', messageController.store)
 router.get('/user/like/get1/:id', likesController.get1)
 router.get('/user/like/get2/:id', likesController.get2)
 router.get('/user/like/delete/:user_id1/:user_id2', likesController.delete)
-router.get('/user/browse/get/:id', browseController.get)
+router.get('/user/browse/get', browseController.get)
 router.get('/user/msg/get', messageController.get)
 
 router.get('/user/friend/get/:id', friendController.get)
