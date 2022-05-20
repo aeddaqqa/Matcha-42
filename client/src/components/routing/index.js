@@ -7,6 +7,7 @@ import NewPassword from "../../views/Home/NewPassword";
 import CompleteProfile from "../../views/CompleteProfile";
 import NavBar from "../NavBar/NavBar";
 import Browsing from "../../views/Browsing/Browsing";
+import Chat from "../../views/Chat/Chat";
 
 const Router = () => {
     return (
@@ -20,6 +21,7 @@ const Router = () => {
                 <Route path="/browsing" element={<Browsing />} />
                 <Route path="/completeProfile" element={<CompleteProfile />} />
                 <Route path="/newpassword" element={<NewPassword />} />
+                <Route path="/messages" element={<Chat />} />
                 <Route path="*" element={<Home />} />
             </Routes>
         </BrowserRouter>

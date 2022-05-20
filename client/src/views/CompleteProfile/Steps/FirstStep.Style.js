@@ -57,6 +57,9 @@ export const StyledFirstStep = styled.div`
         .mui-input {
           width: 100%;
         }
+        .ant-btn {
+          margin-left : 1rem;
+        }
       }
       &--container {
         width: 80%;

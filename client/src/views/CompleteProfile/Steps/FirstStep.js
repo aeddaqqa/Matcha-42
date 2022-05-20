@@ -1,6 +1,6 @@
 import { StyledFirstStep } from "./FirstStep.Style";
 import TextField from "@mui/material/TextField";
-import { Radio } from "antd";
+import { Button, Radio } from "antd";
 import { useEffect, useState } from "react";
 import { DatePicker } from "antd";
 import moment from "moment";
@@ -131,6 +131,7 @@ const FirstStep = () => {
                             onChange={onChange}
                             placeholder="search for tags"
                         />
+                        <Button type="primary">Add tag</Button>
                     </div>
                     <div className="tags-and-biography__tags--container">
                         {listOfInterests.map((item, index) => (
