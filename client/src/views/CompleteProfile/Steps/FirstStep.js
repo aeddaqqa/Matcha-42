@@ -13,12 +13,6 @@ import { AutoComplete } from "antd";
 
 const { TextArea } = Input;
 
-const options = [
-    { value: "Burns Bay Road" },
-    { value: "Downing Street" },
-    { value: "Wall Street" },
-];
-
 const FirstStep = () => {
     const dispatch = useDispatch();
     const handleDelete = () => {
@@ -37,10 +31,16 @@ const FirstStep = () => {
     } = state.completeProfile;
     let token = state.userLogin.user.token;
 
+    const optionsss = [
+        { value: "Burns Bay Road" },
+        { value: "Downing Street" },
+        { value: "Wall Street" },
+    ];
+
     const [value, setValue] = useState("");
-    const [options, setOptions] = useState([]);
+    const [options, setOptions] = useState(optionsss);
     const onSearch = (searchText) => {
-        // console.log(token);
+        // http://localhost:3000/api/user/tags/book
         if (token && searchText)
             axios
                 .get(`http://localhost:3000/api/user/tags/${searchText}`, {
@@ -49,8 +49,8 @@ const FirstStep = () => {
                     },
                 })
                 .then((res) => {
-                    console.log(res.data.result);
-                    setOptions(res.data.result);
+                    console.log(res);
+                    // setOptions(res.data.result);
                 })
                 .catch((err) => console.log(err));
     };

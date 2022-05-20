@@ -10,6 +10,8 @@ import ThirdStep from "./Steps/ThirdStep";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { notification } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
 
 function getSteps() {
     return ["Complete Personnel Info", "Upload Photos", "Localisation"];
@@ -78,9 +80,6 @@ const Steper = () => {
     const state = useSelector((state) => state);
     const completeProfile = state.completeProfile;
     const token = state?.userLogin?.user.token;
-    // useEffect(() => {
-    //     console.log(token);
-    // }, [state]);
     const handleNext = () => {
         if (activeStep === 1 && validateSecondStep(completeProfile)) {
             setActiveStep(activeStep + 1);
@@ -100,7 +99,6 @@ const Steper = () => {
                         listOfInterests: ["sport"],
                         rating: 3,
                         gallery: completeProfile.gallery,
-                        // id: token,
                     },
                     {
                         headers: {
@@ -112,8 +110,23 @@ const Steper = () => {
                     if (
                         res.data.Status == "Success" ||
                         res.data.Msg == "Profile already completed"
-                    )
+                    ) {
+                        let user = localStorage.getItem("user");
+                        localStorage.setItem(
+                            "user",
+                            JSON.stringify({ ...user, complete: 1 })
+                        );
                         navigate("/profile");
+                    }
+                    if (res.data.Status == "Failed")
+                        notification.open({
+                            message: "Notification Title",
+                            description: "Error",
+                            icon: (
+                                <SmileOutlined style={{ color: "#108ee9" }} />
+                            ),
+                        });
+                    console.log(res.data.msg[0][0]);
                     console.log(res);
                 })
                 .catch((err) => console.log(err.response));
