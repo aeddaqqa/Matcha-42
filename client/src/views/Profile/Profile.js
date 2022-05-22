@@ -78,7 +78,7 @@ const tabs = [
 const Profile = () => {
     let token = useSelector((state) => state.userLogin?.user?.token);
     useEffect(() => {
-        console.log(token)
+        console.log(token);
         if (token)
             axios
                 .get("http://localhost:3000/api/user/profile", {
@@ -91,7 +91,6 @@ const Profile = () => {
     const [selectedTab, setSelectedTab] = useState(0);
     return (
         <>
-            <NavBar />
             <StyledProfile>
                 <UserInfo />
                 <StyledBioAndTags>

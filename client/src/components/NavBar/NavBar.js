@@ -1,201 +1,127 @@
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../assets/Logo.svg";
-import {
-    MdOutlineNotifications,
-    MdOutlineNightlight,
-    MdOutlineLightMode,
-} from "react-icons/md";
-import { useState } from "react";
-import { AiOutlineSearch } from "react-icons/ai";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
-import FilledInput from "@mui/material/FilledInput";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
-
+import { AiOutlineSearch, AiOutlineLogout } from "react-icons/ai";
+import { Link, useLocation } from "react-router-dom";
 const dog =
     "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGRvZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60";
-const StyledNavBar = styled.div`
+
+const StyledNavContainer = styled.div`
+    width: 100vw;
+    padding: 1rem 4rem;
+    background-color: #f7f7f7;
+    @media (max-width: 600px) {
+        padding: 0 !important;
+    }
+`;
+
+const StyledContnet = styled.div`
+    width: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    border-bottom: 1px solid #ededed;
-    background-color: #f7f7f7;
-    /* background-color: #f8f3d4; */
-    box-shadow: rgba(100, 100, 111, 0.1) 0px 7px 29px 0px;
-    /* background-color: turquoise; */
-    .navbar-logo {
-        margin-left: 4rem;
-        width: 120px;
-        height: 100px;
-        .logo {
-            width: 100%;
-            height: 100%;
-        }
+    gap: 2rem;
+    padding: 0 2rem;
+    margin: 0 auto;
+    .logo {
+        width: 6rem;
+        height: 4rem;
     }
-    .navbar-links {
-        display: flex;
-        flex-wrap: wrap;
-        height: 100%;
-        align-items: center;
-        & > * {
-            cursor: pointer;
-            margin: 0 1.5rem;
-            font-size: 1.2rem;
-            color: ${(props) => props.theme.colors.text};
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
-        & > *:hover {
-            color: ${(props) => props.theme.colors.primary};
-        }
-        .active {
-            color: ${(props) => props.theme.colors.primary};
-            border-bottom: 1px solid ${(props) => props.theme.colors.primary};
-            /* padding-bottom: 0.5rem; */
-        }
+    .logout {
+        width: 30px;
+        height: 30px;
+        color: ${(props) => props.theme.colors.placeholder};
     }
-    .navbar-user {
-        display: flex;
-        flex-wrap: wrap;
-        margin-right: 4rem;
-        align-items: center;
-        &-pic {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-image: url(${dog});
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin-left: 1rem;
-            border: 1px solid ${(props) => props.theme.colors.primary};
-        }
-        &-name {
-            margin-left: 2rem;
-            font-size: 1.2rem;
-            color: ${(props) => props.theme.colors.text};
-        }
-        &-notification {
-            margin-left: 2rem;
-            position: relative;
-            display: flex;
-            align-items: center;
-            &-icon {
-                width: 30px;
-                height: 30px;
-                color: ${(props) => props.theme.colors.placeholder};
-            }
-            &-count {
-                position: absolute;
-                font-size: 0.8rem;
-                left: 50%;
-                width: 20px;
-                height: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                top: -25%;
-                background-color: ${(props) => props.theme.colors.primary};
-                color: ${(props) => props.theme.colors.text};
-            }
-        }
-        &-theme-selector {
-            margin-left: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            &-icon {
-                width: 30px;
-                height: 30px;
-                color: ${(props) => props.theme.colors.placeholder};
-            }
-        }
-        &-search {
-            border-radius: 20px;
-            width: 300px;
-        }
+    .navbar-user-pic {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-image: url(${dog});
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin-left: 1rem;
+        border: 1px solid ${(props) => props.theme.colors.primary};
+    }
+    @media (max-width: 600px) {
+        width: 100% !important;
+        justify-content: center !important;
     }
 `;
 
-const NavBar = () => {
-    const [theme, setThemeSelector] = useState(true);
-    const [value, setValue] = useState("");
+const StyledLogoBox = styled.div``;
+const StyledLinksBox = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+`;
+const StyledUserBox = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+`;
 
-    const handleChange = (event) => {};
+const StyledLink = styled.div`
+    font-size: 1.3rem;
+    padding: 0.4rem 0;
+    color: ${(props) => props.theme.colors.text};
+    ${({ selected, theme }) =>
+        selected &&
+        `
+        color: ${theme.colors.primary};
+        border-bottom: 1px solid ${theme.colors.primary};
+  `}
+    &:hover {
+        color: ${(props) => props.theme.colors.primary};
+        border-bottom: 1px solid ${(props) => props.theme.colors.primary};
+    }
+`;
 
-    const handleClickSearch = () => {};
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
-
+const NavBar = ({ complete, selected }) => {
+    let location = useLocation();
+    if (!complete)
+        return (
+            <StyledNavContainer>
+                <StyledContnet>
+                    <Logo className="logo" />
+                    <AiOutlineLogout className="icone" />
+                </StyledContnet>
+            </StyledNavContainer>
+        );
     return (
-        <StyledNavBar>
-            <div className="navbar-logo">
-                <Logo className="logo" />
-            </div>
-            <div className="navbar-links">
-                <div className="navbar-links-messages">
-                    <div>Messages</div>
-                </div>
-                <div className="navbar-links-browsing">
-                    <div>Browsing</div>
-                </div>
-                <div className="navbar-links-profile">
-                    <div className="active">Profile</div>
-                </div>
-            </div>
-            <div className="navbar-user">
-                <FormControl className="navbar-user-search" variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">
-                        Search
-                    </InputLabel>
-                    <OutlinedInput
-                        className="navbar-user-search"
-                        type="text"
-                        value={value}
-                        onChange={(e) => {
-                            setValue(e.target.value);
-                        }}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    onClick={handleClickSearch}
-                                    edge="end"
-                                >
-                                    <AiOutlineSearch />
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        label="seacrh"
-                    />
-                </FormControl>
-                <div
-                    className="navbar-user-theme-selector"
-                    onClick={() => setThemeSelector(!theme)}
-                >
-                    {theme ? (
-                        <MdOutlineLightMode className="navbar-user-theme-selector-icon" />
-                    ) : (
-                        <MdOutlineNightlight className="navbar-user-theme-selector-icon" />
-                    )}
-                </div>
-                <div className="navbar-user-notification">
-                    <MdOutlineNotifications className="navbar-user-notification-icon" />
-                    <div className="navbar-user-notification-count">4</div>
-                </div>
-                <div className="navbar-user-name">farwila</div>
-                <div className="navbar-user-pic" />
-            </div>
-        </StyledNavBar>
+        <StyledNavContainer>
+            <StyledContnet>
+                <StyledLogoBox>
+                    <Logo className="logo" />
+                </StyledLogoBox>
+                <StyledLinksBox>
+                    <Link to="/profile">
+                        <StyledLink selected={location.pathname === "/profile"}>
+                            Profile
+                        </StyledLink>
+                    </Link>
+                    <Link to="/browsing">
+                        <StyledLink
+                            selected={location.pathname === "/browsing"}
+                        >
+                            Browsing
+                        </StyledLink>
+                    </Link>
+                    <Link to="/messages">
+                        <StyledLink
+                            selected={location.pathname === "/messages"}
+                        >
+                            Messages
+                        </StyledLink>
+                    </Link>
+                </StyledLinksBox>
+                <StyledUserBox>
+                    <div className="navbar-user-pic" />
+                    <AiOutlineLogout className="logout" />
+                </StyledUserBox>
+            </StyledContnet>
+        </StyledNavContainer>
     );
 };
 
