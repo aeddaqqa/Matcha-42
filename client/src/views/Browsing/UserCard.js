@@ -64,34 +64,8 @@ const UserCard = () => {
         },
     };
     return (
-        <StyledCardContainer {...handlers}>
-            <div className="images">
-                {data.map((item, index) => {
-                    return (
-                        <div
-                            key={index}
-                            className={
-                                current === index ? "slide active" : "slide"
-                            }
-                        >
-                            {current === index && (
-                                <div
-                                    className="card-image"
-                                    style={{
-                                        backgroundImage: `url(${item.image})`,
-                                    }}
-                                ></div>
-                            )}
-                        </div>
-                    );
-                })}
-            </div>
-            <StyledCerclesContainer>
-                <StyledCercle selected={true} />
-                <StyledCercle />
-                <StyledCercle />
-                <StyledCercle />
-            </StyledCerclesContainer>
+        <StyledCardContainer>
+            <StyledCerclesContainer></StyledCerclesContainer>
             <StyledContentContainer
                 initial={false}
                 animate={isOpen ? "open" : "closed"}

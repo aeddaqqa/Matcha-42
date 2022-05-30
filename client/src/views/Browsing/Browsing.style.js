@@ -5,6 +5,8 @@ export const BrowsingContainer = styled.div`
     width: 100%;
     padding-top: 100px;
     display: flex;
+    flex-direction: column;
+    gap: 5rem;
     align-items: center;
     justify-content: center;
 `;
@@ -103,11 +105,28 @@ export const CardContentStyle = styled.div`
         background-position: center;
         color: #333;
     }
-   
-    }
+
     .card__back {
         transform: rotateY(0.5turn);
         color: #b7c9e5;
         background: ${(props) => props.theme.colors.tertiary};
     }
+`;
+
+export const StyledSearchContainer = styled.div`
+    width: 80%;
+    margin: auto;
+    min-height: 10rem;
+    /* background-color: blue; */
+`;
+export const StyledDataContainer = styled.div`
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 10rem; */
+    background-color: red;
 `;
