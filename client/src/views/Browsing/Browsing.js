@@ -1,11 +1,13 @@
 import { BrowsingContainer } from "./Browsing.style";
 import LeftSide from "./LeftSide";
-import Content from "./Content";
+// import Content from "./Content";
+import UserCard from "./UserCard";
 const Browsing = () => {
     return (
         <BrowsingContainer>
             {/* <LeftSide /> */}
-            <Content />
+            <UserCard />
+            {/* <Content /> */}
         </BrowsingContainer>
     );
 };

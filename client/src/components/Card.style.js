@@ -58,7 +58,6 @@ export const CardStyle = styled.div`
             }
         }
         &-icone {
-            /* flex: 1 1 auto; */
             height: 100%;
             display: flex;
             align-items: center;
@@ -78,11 +77,6 @@ export const CardStyle = styled.div`
         height: 30px;
         width: 100%;
         background-color: rgba(0, 0, 0, 0.2);
-        /* background-image: linear-gradient(
-            to bottom,
-            #f5f5f5 0%,
-            rgba(0, 0, 0, 0.8) 100%
-        ); */
         display: flex;
         align-items: center;
         justify-content: center;

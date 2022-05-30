@@ -3,14 +3,10 @@ export const BrowsingContainer = styled.div`
     /* background-color: red;
     NEED MORE STYLES */
     width: 100%;
-    min-height: auto;
     padding-top: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* position: relative; */
-    /* flex-flow: row nowrap; */
-    /* background-image: ${(props) => props.theme.background.secondary}; */
 `;
 
 export const LeftSideStyle = styled.div`

@@ -38,10 +38,6 @@ const Content = () => {
             <Card />
             <Card />
             <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
             {/* <Swiper
                 effect={"cards"}
                 grabCursor={true}
