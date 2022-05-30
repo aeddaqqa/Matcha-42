@@ -79,7 +79,7 @@ const StyledContentContainer = styled(motion.div)`
         gap: 0.5rem;
     }
     .location {
-        color: ${({ theme }) => theme.colors.primary};
+        color: ${({ theme }) => theme.colors.secondary}};
         font-size: 1rem;
         margin-bottom: 0.5rem;
     }
