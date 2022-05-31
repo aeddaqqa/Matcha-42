@@ -4,7 +4,7 @@ import UserPic from "./UserPic";
 import { AiOutlineSend } from "react-icons/ai";
 const StyledChatBox = styled.div`
     flex: 1 1 auto;
-    height: 1400px;
+    height: 1000px;
     border-left: 1px solid #e9dac1;
     background: #fbf8f1;
 `;
@@ -69,7 +69,7 @@ const Header = () => {
 
 const StyledContent = styled.div`
     width: 100%;
-    height: 71%;
+    height: 80%;
 `;
 
 const StyledMessage = styled.div`
@@ -126,14 +126,11 @@ const Content = () => {
 
 const StyledMessageInput = styled.div`
     width: 100%;
-    height: 100px;
     display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 20px;
+    font-size: 0.8rem;
     .input-text {
         flex: 1 1 50%;
-        /* height: 50%; */
         border: #a6b1e1 1px solid;
         border-radius: 10px;
         padding: 10px 15px;
@@ -146,8 +143,13 @@ const StyledMessageInput = styled.div`
         color: white;
         background: #a6b1e1;
         border: none;
+        /* font-size: 0.8rem; */
+        display: flex;
         outline: none;
         flex: 0 0 100px;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
         margin-left: 20px;
         padding: 10px 15px;
         border-radius: 10px;
