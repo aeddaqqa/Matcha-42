@@ -5,9 +5,15 @@ import Contacts from "../../components/chat/Contacts";
 import ChatBox from "../../components/chat/ChatBox";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 const StyledChat = styled.div`
-    height: 1200px;
-    width: 1200px;
+    /* height: 1200px; */
+    /* width: 1200px; */
+    height: 1000px;
+    max-width: 1200px;
+    width: 90%;
+    margin: auto;
+    margin-top: 100px;
     display: flex;
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
@@ -15,7 +21,7 @@ const StyledChat = styled.div`
         rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
     .title {
         font-family: "Roboto Condensed", sans-serif;
-        font-size: 1.1rem;
+        font-size: 1rem;
         color: #232434;
         padding-left: 20px;
         padding-top: 20px;

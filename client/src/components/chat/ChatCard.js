@@ -33,6 +33,9 @@ const StyledChatCard = styled.div`
         align-items: center;
         flex-flow: column;
         justify-content: space-around;
+        p {
+            font-size: 0.8rem;
+        }
         .notification {
             width: 24px;
             height: 26px;

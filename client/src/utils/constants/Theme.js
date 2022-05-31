@@ -2,8 +2,8 @@ export const theme = {
     light: {
         background: {
             primary: "#ffffff",
-            secondary: "#f5f5f5",
-            // secondary: "linear-gradient(to bottom right,#DD2476, #F24E1E)",
+            // secondary: "#f5f5f5",
+            secondary: "linear-gradient(to bottom right,#DD2476, #F24E1E)",
         },
         colors: {
             primary: "#F24E1E",

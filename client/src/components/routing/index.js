@@ -18,8 +18,7 @@ const ProtectedRoutes = () => {
     if (!user || !user?.verified)
         return (
             <>
-                <NavBar complete={true} />
-                <Browsing />
+                <Home />
             </>
         );
     else if (!user.complete)
@@ -37,7 +36,7 @@ const ProtectedRoutes = () => {
     );
 };
 
-const Router = () => {
+const Routerr = () => {
     return (
         <BrowserRouter>
             <Routes>
@@ -53,6 +52,27 @@ const Router = () => {
                     {/* <Route path="*" element={<Profile />} /> */}
                 </Route>
                 {/* <Route path="*" element={<Profile />} /> */}
+            </Routes>
+        </BrowserRouter>
+    );
+};
+
+const Router = () => {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route index path="/" element={<Home />} />
+                <Route path="/verifyProfil" element={<ComfirmAccount />} />
+                {/* protected routes */}
+                <Route element={<ProtectedRoutes />}>
+                    <Route
+                        path="/completeProfile"
+                        element={<CompleteProfile />}
+                    />
+                    <Route path="/messages" element={<Chat />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/browsing" element={<Browsing />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     );
