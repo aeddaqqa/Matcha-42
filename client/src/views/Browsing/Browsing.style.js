@@ -2,11 +2,14 @@ import styled from "styled-components";
 export const BrowsingContainer = styled.div`
     /* background-color: red;
     NEED MORE STYLES */
-    width: 100%;
-    padding-top: 100px;
+    width: 90%;
+    margin: auto;
+    margin-top: 100px;
     display: flex;
     flex-direction: column;
+    /* border-radius: 20px; */
     gap: 5rem;
+    /* padding: 10rem; */
     align-items: center;
     justify-content: center;
 `;
@@ -114,19 +117,76 @@ export const CardContentStyle = styled.div`
 `;
 
 export const StyledSearchContainer = styled.div`
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 20px;
+    padding: 2rem 6rem;
     width: 80%;
     margin: auto;
     min-height: 10rem;
-    /* background-color: blue; */
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    max-width: 1000px;
+    h1 {
+        color: ${(props) => props.theme.colors.primary};
+        font-size: 1.2rem;
+        margin: 1rem 0;
+    }
+    .search {
+        display: flex;
+        gap: 5%;
+        flex-wrap: wrap;
+        height: 40px;
+        &--input {
+            min-width: 300px;
+            flex: 1 1 60%;
+        }
+        &--button {
+            height: 100%;
+            flex: 1 1 20%;
+            background-color: ${(props) => props.theme.colors.primary};
+            color: white;
+        }
+    }
+    .filter {
+        &__item {
+            display: flex;
+            align-items: center;
+            gap: 5%;
+            h2 {
+                font-size: 1.1rem;
+            }
+            display: flex;
+            /* gap: 5%; */
+            /* flex-wrap: wrap; */
+            justify-content: space-between;
+            &__content {
+                margin: 1rem 0;
+                flex: 0 0 45%;
+                display: flex;
+                flex-wrap: nowrap;
+                align-items: center;
+                /* gap: 5%; */
+                .ant-slider {
+                    flex: 0 0 75%;
+                }
+                .ant-input-number {
+                    flex: 0 0 15%;
+                }
+            }
+        }
+    }
 `;
 export const StyledDataContainer = styled.div`
     width: 80%;
     margin: auto;
+    max-width: 1000px;
     display: flex;
     flex-wrap: wrap;
     gap: 3rem;
     justify-content: center;
     align-items: center;
-    /* min-height: 10rem; */
-    background-color: red;
+    padding: 4rem 6rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 20px;
 `;
